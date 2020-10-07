@@ -2,6 +2,7 @@
   "name": "katana-kinesis",
   "version": "1.0.0",
   "description": "",
+  "main": "src/main.ts",
   "scripts": {
     "build": "tsc --target es6",
     "watch": "tsc -w",
@@ -14,8 +15,10 @@
   "license": "",
   "devDependencies": {
     "black-engine": "0.5.10",
-    "electron": "^9.3.0",
     "tslint": "^6.1.2",
     "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "electron": "^10.1.3"
   }
 }
