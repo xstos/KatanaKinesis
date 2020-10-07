@@ -12,6 +12,25 @@ import { DisplayObject } from "../display/DisplayObject";
  * @extends black-engine~Component
  */
 export class RigidBody extends Component {
+	public mCollider: any;
+	public mInGroup: any;
+	public mIsSleeping: any;
+	public mSleepTime: any;
+	public mContacts: any;
+	public mPivot: any;
+	public mCachedPosition: any;
+	public mPairs: any;
+	public mIsStatic: any;
+	public mPosition: any;
+	public mVelocity: any;
+	public mForce: any;
+	public mTransform: any;
+	public mMass: any;
+	public mInvMass: any;
+	public frictionAir: any;
+	public friction: any;
+	public bounce: any;
+
   /**
    * Creates new instance of RigidBody.
    */

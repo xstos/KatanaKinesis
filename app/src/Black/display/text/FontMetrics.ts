@@ -30,6 +30,16 @@ let useOffscreenCanvas = false;
  * @cat display.text
  */
 export class FontMetrics {
+	public mCanvas: any;
+	public mCtx: any;
+	public mStyle: any;
+	public baseline: any;
+	public bottom: any;
+	public ascent: any;
+	public descent: any;
+	public xHeight: any;
+	public capHeight: any;
+
   /**
    * Creates new instance of FontMetrics. Do not use constructor directly instead use {@link FontMetrics#get} method.
    *

@@ -8,6 +8,10 @@ import { ColorHelper } from "../utils/ColorHelper";
  * @extends black-engine~FloatScatterBase
  */
 export class ColorScatter extends ColorScatterBase {
+	public startColor: any;
+	public endColor: any;
+	public ease: any;
+
   /**
    * Creates new ColorScatter instance.
    * 
@@ -59,6 +63,7 @@ export class ColorScatter extends ColorScatterBase {
     if (values[0] instanceof ColorScatterBase)
       return /** @type {ColorScatterBase} */ (values[0]);
 
+    // @ts-ignore
     return new ColorScatter(...values);
   }
 }

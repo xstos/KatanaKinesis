@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name max-line-length */
 import { ObjectPool } from "../utils/ObjectPool";
 import { Debug } from "../core/Debug";
 import { Rectangle } from "./Rectangle";
@@ -9,6 +10,11 @@ import { Vector } from "./Vector";
  * @cat geom
  */
 export class Matrix {
+	public data: any;
+  static pool: any;
+  static __identity: any;
+  static __cache: Matrix;
+
   /**
    * Creates new Matrix instance.
    *
@@ -20,9 +26,9 @@ export class Matrix {
    * @param  {number} [ty=0] TY-component.
    */
   constructor(a = 1, b = 0, c = 0, d = 1, tx = 0, ty = 0) {
-    /** 
-     * @private 
-     * @type {Float32Array} 
+    /**
+     * @private
+     * @type {Float32Array}
      */
     this.data = new Float32Array(6);
     this.set(a, b, c, d, tx, ty);
@@ -42,7 +48,7 @@ export class Matrix {
   set(a = 1, b = 0, c = 0, d = 1, tx = 0, ty = 0) {
     Debug.isNumber(a, b, c, d, tx, ty);
 
-    let m = this.data;
+    const m = this.data;
 
     m[0] = a;
     m[1] = b;
@@ -64,14 +70,14 @@ export class Matrix {
   translate(dx, dy) {
     Debug.isNumber(dx, dy);
 
-    let a = this.data;
+    const a = this.data;
 
-    let /** @type {number} */ a0 = a[0]; // a
-    let /** @type {number} */ a1 = a[1]; // b
-    let /** @type {number} */ a2 = a[2]; // c
-    let /** @type {number} */ a3 = a[3]; // d
-    let /** @type {number} */ a4 = a[4]; // tx
-    let /** @type {number} */ a5 = a[5]; // ty
+    const /** @type {number} */ a0 = a[0]; // a
+    const /** @type {number} */ a1 = a[1]; // b
+    const /** @type {number} */ a2 = a[2]; // c
+    const /** @type {number} */ a3 = a[3]; // d
+    const /** @type {number} */ a4 = a[4]; // tx
+    const /** @type {number} */ a5 = a[5]; // ty
 
     this.data[4] = a0 * dx + a2 * dy + a4;
     this.data[5] = a1 * dx + a3 * dy + a5;
@@ -105,7 +111,7 @@ export class Matrix {
   setRotation(theta, scale = 1) {
     Debug.isNumber(theta, scale);
 
-    let m = this.data;
+    const m = this.data;
     m[0] = Math.cos(theta) * scale;
     m[2] = Math.sin(theta) * scale;
     m[1] = -m[2];
@@ -123,12 +129,12 @@ export class Matrix {
   rotate(angle) {
     Debug.isNumber(angle);
 
-    let a = this.data;
-    let cos = Math.cos(angle);
-    let sin = Math.sin(angle);
-    let a0 = a[0];
-    let a2 = a[2];
-    let a4 = a[4];
+    const a = this.data;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const a0 = a[0];
+    const a2 = a[2];
+    const a4 = a[4];
 
     a[0] = a0 * cos - a[1] * sin;
     a[1] = a0 * sin + a[1] * cos;
@@ -150,13 +156,13 @@ export class Matrix {
   scale(sx, sy) {
     Debug.isNumber(sx, sy);
 
-    let a = this.data;
-    let /** @type {number} */ a0 = a[0]; // a
-    let /** @type {number} */ a1 = a[1]; // b
-    let /** @type {number} */ a2 = a[2]; // c
-    let /** @type {number} */ a3 = a[3]; // d
-    let /** @type {number} */ a4 = a[4]; // tx
-    let /** @type {number} */ a5 = a[5]; // ty
+    const a = this.data;
+    const /** @type {number} */ a0 = a[0]; // a
+    const /** @type {number} */ a1 = a[1]; // b
+    const /** @type {number} */ a2 = a[2]; // c
+    const /** @type {number} */ a3 = a[3]; // d
+    const /** @type {number} */ a4 = a[4]; // tx
+    const /** @type {number} */ a5 = a[5]; // ty
 
     this.data[0] = a0 * sx;
     this.data[1] = a1 * sx;
@@ -167,11 +173,11 @@ export class Matrix {
   }
 
   skew(sx, sy) {
-    let sinX = Math.sin(sx);
-    let cosX = Math.cos(sx);
-    let sinY = Math.sin(sy);
-    let cosY = Math.cos(sy);
-    let d = this.data;
+    const sinX = Math.sin(sx);
+    const cosX = Math.cos(sx);
+    const sinY = Math.sin(sy);
+    const cosY = Math.cos(sy);
+    const d = this.data;
 
     this.set(
       d[0] * cosY - d[1] * sinX,
@@ -207,35 +213,35 @@ export class Matrix {
    * @return {black-engine~Matrix}   This.
    */
   prepend(b) {
-    let a = this.data;
-    let bv = b.data;
+    const a = this.data;
+    const bv = b.data;
 
-    let /** @type {number} */ a0 = a[0]; // a
-    let /** @type {number} */ a1 = a[1]; // b
-    let /** @type {number} */ a2 = a[2]; // c
-    let /** @type {number} */ a3 = a[3]; // d
-    let /** @type {number} */ a4 = a[4]; // tx
-    let /** @type {number} */ a5 = a[5]; // ty
+    const /** @type {number} */ a0 = a[0]; // a
+    const /** @type {number} */ a1 = a[1]; // b
+    const /** @type {number} */ a2 = a[2]; // c
+    const /** @type {number} */ a3 = a[3]; // d
+    const /** @type {number} */ a4 = a[4]; // tx
+    const /** @type {number} */ a5 = a[5]; // ty
 
-    let /** @type {number} */ b0 = bv[0]; // a
-    let /** @type {number} */ b1 = bv[1]; // b
-    let /** @type {number} */ b2 = bv[2]; // c
-    let /** @type {number} */ b3 = bv[3]; // d
-    let /** @type {number} */ b4 = bv[4]; // tx
-    let /** @type {number} */ b5 = bv[5]; // ty
+    const /** @type {number} */ b0 = bv[0]; // a
+    const /** @type {number} */ b1 = bv[1]; // b
+    const /** @type {number} */ b2 = bv[2]; // c
+    const /** @type {number} */ b3 = bv[3]; // d
+    const /** @type {number} */ b4 = bv[4]; // tx
+    const /** @type {number} */ b5 = bv[5]; // ty
 
     if (b0 !== 1 || b1 !== 0 || b2 !== 0 || b3 !== 1) {
-      let a11 = (a0 * b0 + a1 * b2);
+      const a11 = (a0 * b0 + a1 * b2);
       a[1] = a0 * b1 + a1 * b3;
       a[0] = a11;
 
-      let c11 = (a2 * b0 + a3 * b2);
+      const c11 = (a2 * b0 + a3 * b2);
       a[3] = a2 * b1 + a3 * b3;
       a[2] = c11;
     }
 
 
-    let tx11 = (a4 * b0 + a5 * b2 + b4);
+    const tx11 = (a4 * b0 + a5 * b2 + b4);
     a[5] = a4 * b1 + a5 * b3 + b5;
     a[4] = tx11;
     return this;
@@ -248,21 +254,21 @@ export class Matrix {
    * @return {black-engine~Matrix} This.
    */
   append(b) {
-    let a = this.data;
-    let bv = b.data;
+    const a = this.data;
+    const bv = b.data;
 
-    let /** @type {number} */ a0 = a[0];
-    let /** @type {number} */ a1 = a[1];
-    let /** @type {number} */ a2 = a[2];
-    let /** @type {number} */ a3 = a[3];
-    let /** @type {number} */ a4 = a[4];
-    let /** @type {number} */ a5 = a[5];
-    let /** @type {number} */ b0 = bv[0];
-    let /** @type {number} */ b1 = bv[1];
-    let /** @type {number} */ b2 = bv[2];
-    let /** @type {number} */ b3 = bv[3];
-    let /** @type {number} */ b4 = bv[4];
-    let /** @type {number} */ b5 = bv[5];
+    const /** @type {number} */ a0 = a[0];
+    const /** @type {number} */ a1 = a[1];
+    const /** @type {number} */ a2 = a[2];
+    const /** @type {number} */ a3 = a[3];
+    const /** @type {number} */ a4 = a[4];
+    const /** @type {number} */ a5 = a[5];
+    const /** @type {number} */ b0 = bv[0];
+    const /** @type {number} */ b1 = bv[1];
+    const /** @type {number} */ b2 = bv[2];
+    const /** @type {number} */ b3 = bv[3];
+    const /** @type {number} */ b4 = bv[4];
+    const /** @type {number} */ b5 = bv[5];
 
     a[0] = a0 * b0 + a2 * b1;
     a[1] = a1 * b0 + a3 * b1;
@@ -285,7 +291,7 @@ export class Matrix {
     Debug.isNumber(x, y);
 
     outVector = outVector || new Vector();
-    let m = this.data;
+    const m = this.data;
 
     outVector.x = m[0] * x + m[2] * y + m[4];
     outVector.y = m[1] * x + m[3] * y + m[5];
@@ -304,7 +310,7 @@ export class Matrix {
   transformDirectionXY(x, y, outVector) {
     Debug.isNumber(x, y);
 
-    let m = this.data;
+    const m = this.data;
     outVector = outVector || new Vector();
 
     outVector.x = m[0] * x + m[2] * y;
@@ -344,11 +350,11 @@ export class Matrix {
     let maxX = -Number.MAX_VALUE;
     let minY = Number.MAX_VALUE;
     let maxY = -Number.MAX_VALUE;
-    let m = this.data;
-    let tmpVector = Vector.pool.get();
+    const m = this.data;
+    const tmpVector = Vector.pool.get();
 
     /** @type {Array<number>} */
-    let points = [rect.x, rect.y, rect.x + rect.width, rect.y, rect.x, rect.y + rect.height, rect.x + rect.width, rect.y + rect.height];
+    const points = [rect.x, rect.y, rect.x + rect.width, rect.y, rect.x, rect.y + rect.height, rect.x + rect.width, rect.y + rect.height];
 
     for (let i = 0; i < points.length; i += 2) {
       tmpVector.x = m[0] * points[i] + m[2] * points[i + 1] + m[4];
@@ -375,14 +381,14 @@ export class Matrix {
    * @return {black-engine~Matrix} This.
    */
   invert() {
-    let a = this.data;
+    const a = this.data;
 
-    let aa = a[0];
-    let ab = a[1];
-    let ac = a[2];
-    let ad = a[3];
-    let atx = a[4];
-    let aty = a[5];
+    const aa = a[0];
+    const ab = a[1];
+    const ac = a[2];
+    const ad = a[3];
+    const atx = a[4];
+    const aty = a[5];
 
     let det = aa * ad - ab * ac;
     if (det === 0) {
@@ -409,18 +415,18 @@ export class Matrix {
    * @returns {Array<number>} Description
    */
   __decompose() {
-    let m = this.data;
-    let a = m[0];
-    let b = m[1];
-    let c = m[2];
-    let d = m[3];
-    let tx = m[4];
-    let ty = m[5];
+    const m = this.data;
+    const a = m[0];
+    const b = m[1];
+    const c = m[2];
+    const d = m[3];
+    const tx = m[4];
+    const ty = m[5];
 
-    let skewX = -Math.atan2(-c, d);
-    let skewY = Math.atan2(b, a);
+    const skewX = -Math.atan2(-c, d);
+    const skewY = Math.atan2(b, a);
 
-    let delta = Math.abs(skewX + skewY);
+    const delta = Math.abs(skewX + skewY);
 
     let r_rotation = 0;
     let r_skewX = 0;
@@ -455,8 +461,8 @@ export class Matrix {
    * @return {black-engine~Matrix} New cloned object.
    */
   clone() {
-    let m = new Matrix();
-    let v = this.data;
+    const m = new Matrix();
+    const v = this.data;
     m.set(v[0], v[1], v[2], v[3], v[4], v[5]);
     return m;
   }
@@ -468,8 +474,8 @@ export class Matrix {
    * @return {black-engine~Matrix} This.
    */
   copyTo(matrix) {
-    let a = this.data;
-    let b = matrix.data;
+    const a = this.data;
+    const b = matrix.data;
 
     b[0] = a[0];
     b[1] = a[1];
@@ -501,8 +507,8 @@ export class Matrix {
     if (!matrix)
       return false;
 
-    let a = this.data;
-    let b = matrix.data;
+    const a = this.data;
+    const b = matrix.data;
 
     return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3] && a[4] === b[4] && a[5] === b[5];
   }
@@ -518,8 +524,8 @@ export class Matrix {
     if (!matrix)
       return false;
 
-    let a = this.data;
-    let b = matrix.data;
+    const a = this.data;
+    const b = matrix.data;
 
     return (Math.abs(a[0] - b[0]) < epsilon) && (Math.abs(a[1] - b[1]) < epsilon) && (Math.abs(a[2] - b[2]) < epsilon) &&
       (Math.abs(a[3] - b[3]) < epsilon) && (Math.abs(a[4] - b[4]) < epsilon) && (Math.abs(a[5] - b[5]) < epsilon);

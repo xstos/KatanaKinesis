@@ -19,6 +19,23 @@ import { Message } from "../../messages/Message";
  * @extends black-engine~DisplayObject
  */
 export class TextField extends DisplayObject {
+	public mText: any;
+	public mTextWidth: any;
+	public mTextHeight: any;
+	public mDefaultStyle: any;
+	public mStyles: any;
+	public mAutoSize: any;
+	public mAlign: any;
+	public mVerticalAlign: any;
+	public mMultiline: any;
+	public mLineHeight: any;
+	public mTextBounds: any;
+	public mFieldWidth: any;
+	public mFieldHeight: any;
+	public mPadding: any;
+	public mMetrics: any;
+	public mHighQuality: any;
+
   /**
    * Creates new instance of TextField
    * 

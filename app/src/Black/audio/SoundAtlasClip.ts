@@ -8,6 +8,7 @@ import { SoundInstance } from "./SoundInstance";
  * @extends black-engine~SoundClip
  */
 export class SoundAtlasClip extends SoundClip {
+	public mClips: any;
 
   /**
    * Creates instance of SoundAtlas.

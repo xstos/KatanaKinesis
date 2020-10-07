@@ -18,6 +18,15 @@ import { MathEx } from "../math/MathEx";
  * @cat display
  */
 export class GraphicsData {
+	public mNodes: any;
+	public mTransform: any;
+	public mCommandQueue: any;
+	public mPivotX: any;
+	public mPivotY: any;
+	public mPosX: any;
+	public mPosY: any;
+	public mName: any;
+
   /**
    * Creates new instance of GraphicsData
    */

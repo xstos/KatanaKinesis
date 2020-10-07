@@ -4,6 +4,25 @@
  * @cat particles
  */
 export class Particle {
+	public textureIndex: any;
+	public scaleX: any;
+	public scaleY: any;
+	public alpha: any;
+	public life: any;
+	public age: any;
+	public energy: any;
+	public mass: any;
+	public x: any;
+	public y: any;
+	public r: any;
+	public vx: any;
+	public vy: any;
+	public ax: any;
+	public ay: any;
+	public color: any;
+	public anchorX: any;
+	public anchorY: any;
+
   constructor() {
 
     /** @type {number} The index of a texture. */

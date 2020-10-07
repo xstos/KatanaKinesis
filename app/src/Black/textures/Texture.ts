@@ -15,6 +15,21 @@ let __ID = 0;
  * @cat textures
  */
 export class Texture {
+	public mId: any;
+	public mNative: any;
+	public mValid: any;
+	public mRegion: any;
+	public mUntrimmedRegion: any;
+	public mNativeWidth: any;
+	public mNativeHeight: any;
+	public mDisplayWidth: any;
+	public mDisplayHeight: any;
+	public mRenderWidth: any;
+	public mRenderHeight: any;
+	public mScale: any;
+	public mRegistrationPoint: any;
+	public mSlice9borders: any;
+
   /**
    * Creates new instance of texture.
    *

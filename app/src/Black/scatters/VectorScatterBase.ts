@@ -8,6 +8,8 @@ import { Vector } from "../geom/Vector";
  * @extends black-engine~Scatter
  */
 export class VectorScatterBase extends Scatter {
+	public value: any;
+
   /**
    * Creates new VectorScatter instance.
    */

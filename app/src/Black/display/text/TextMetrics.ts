@@ -10,6 +10,12 @@ import { FontStyle } from "./styles/FontStyle";
  * @cat display.text
  */
 export class TextMetricsData {
+	public segments: any;
+	public bounds: any;
+	public strokeBounds: any;
+	public shadowBounds: any;
+	public lineWidth: any;
+
   constructor() {
 
     /**
@@ -50,6 +56,11 @@ export class TextMetricsData {
  * @cat display.text
  */
 export class TextSegmentMetricsData {
+	public text: any;
+	public style: any;
+	public lineIndex: any;
+	public bounds: any;
+
   constructor(text, style, lineIndex, bounds) {
 
     /**

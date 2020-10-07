@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name max-line-length */
 import { Vector } from "./Vector";
 import { Rectangle } from "./Rectangle";
 import { Line } from "./Line";
@@ -6,6 +7,14 @@ import { Line } from "./Line";
  * @cat geom
  */
 export class Polygon {
+	public mVertices: any;
+	public mLines: any;
+	public mBounds: any;
+	public mCenter: any;
+	public x: any;
+	public y: any;
+  static __cache: Polygon;
+
   /**
    * Creates new Polygon instance.
    *
@@ -13,27 +22,27 @@ export class Polygon {
    */
   constructor(vertices = []) {
 
-    /** 
-     * @private 
-     * @type {Array<black-engine~Vector>} 
+    /**
+     * @private
+     * @type {Array<black-engine~Vector>}
      */
     this.mVertices = vertices;
 
-    /** 
-     * @private 
-     * @type {Array<black-engine~Line>} 
+    /**
+     * @private
+     * @type {Array<black-engine~Line>}
      */
     this.mLines = [];
 
-    /** 
-     * @private 
-     * @type {black-engine~Rectangle} 
+    /**
+     * @private
+     * @type {black-engine~Rectangle}
      */
     this.mBounds = new Rectangle();
 
-    /** 
-     * @private 
-     * @type {black-engine~Vector} 
+    /**
+     * @private
+     * @type {black-engine~Vector}
      */
     this.mCenter = new Vector();
 
@@ -60,8 +69,8 @@ export class Polygon {
    * @return {black-engine~Polygon} Passed polygon.
    */
   copyTo(polygon) {
-    let len = this.mVertices.length;
-    let vertices = [];
+    const len = this.mVertices.length;
+    const vertices = [];
 
     for (let i = 0; i < len; i++) {
       vertices.push(this.mVertices[i].clone());
@@ -77,9 +86,9 @@ export class Polygon {
    * @return {black-engine~Polygon} This polygon.
    */
   copyFrom(polygon) {
-    let polygonVertices = polygon.mVertices;
-    let len = polygonVertices.length;
-    let vertices = [];
+    const polygonVertices = polygon.mVertices;
+    const len = polygonVertices.length;
+    const vertices = [];
 
     for (let i = 0; i < len; i++) {
       vertices.push(polygonVertices[i].clone());
@@ -94,9 +103,9 @@ export class Polygon {
    * @return {black-engine~Polygon} Created polygon.
    */
   clone() {
-    let thisVertices = this.mVertices;
-    let len = thisVertices.length;
-    let vertices = [];
+    const thisVertices = this.mVertices;
+    const len = thisVertices.length;
+    const vertices = [];
 
     for (let i = 0; i < len; i++) {
       vertices.push(thisVertices[i].clone());
@@ -143,15 +152,15 @@ export class Polygon {
    * @return {boolean} True if polygon contains point.
    */
   contains(vector) {
-    let center = this.mCenter;
-    let lines = this.mLines;
-    let len = lines.length;
+    const center = this.mCenter;
+    const lines = this.mLines;
+    const len = lines.length;
 
     if (center.equals(vector)) {
       return true;
     }
 
-    let intersectionLine = new Line(vector, center.clone());
+    const intersectionLine = new Line(vector, center.clone());
     let intersects = 0;
     intersectionLine.scale((this.width + this.height) / intersectionLine.length());
 
@@ -168,8 +177,8 @@ export class Polygon {
    * @return {number} perimeter.
    */
   get perimeter() {
-    let thisLines = this.mLines;
-    let len = thisLines.length;
+    const thisLines = this.mLines;
+    const len = thisLines.length;
     let perimeter = 0;
 
     for (let i = 0; i < len; i++) {
@@ -190,10 +199,10 @@ export class Polygon {
       return false;
     }
 
-    let thisLines = this.mLines;
-    let thisLen = thisLines.length;
-    let polygonLines = polygon.mLines;
-    let polygonLen = polygonLines.length;
+    const thisLines = this.mLines;
+    const thisLen = thisLines.length;
+    const polygonLines = polygon.mLines;
+    const polygonLen = polygonLines.length;
 
     for (let i = 0; i < thisLen; i++) {
       for (let j = 0; j < polygonLen; j++) {
@@ -213,14 +222,14 @@ export class Polygon {
    * @return {boolean} True if polygon collides with circle.
    */
   collideCircle(circle) {
-    let bounds = this.mBounds;
-    let lines = this.mLines;
+    const bounds = this.mBounds;
+    const lines = this.mLines;
 
     if (bounds.left > circle.right || bounds.right < circle.left || bounds.top > circle.bottom || bounds.bottom < circle.top) {
       return false;
     }
 
-    let len = lines.length;
+    const len = lines.length;
     for (let i = 0; i < len; i++) {
       if (lines[i].intersectsCircle(circle)) {
         return true;
@@ -241,10 +250,10 @@ export class Polygon {
       return false;
     }
 
-    let thisLines = this.mLines;
-    let thisLen = thisLines.length;
-    let rectangleLines = rectangle.lines;
-    let rectangleLen = rectangleLines.length;
+    const thisLines = this.mLines;
+    const thisLen = thisLines.length;
+    const rectangleLines = rectangle.lines;
+    const rectangleLen = rectangleLines.length;
 
     for (let i = 0; i < thisLen; i++) {
       for (let j = 0; j < rectangleLen; j++) {
@@ -272,10 +281,10 @@ export class Polygon {
       return false;
     }
 
-    let thisLines = this.mLines;
-    let thisLen = thisLines.length;
-    let polygonLines = polygon.mLines;
-    let polygonLen = polygonLines.length;
+    const thisLines = this.mLines;
+    const thisLen = thisLines.length;
+    const polygonLines = polygon.mLines;
+    const polygonLen = polygonLines.length;
 
     for (let i = 0; i < thisLen; i++) {
       for (let j = 0; j < polygonLen; j++) {
@@ -299,8 +308,8 @@ export class Polygon {
       return false;
     }
 
-    let thisLines = this.mLines;
-    let len = thisLines.length;
+    const thisLines = this.mLines;
+    const len = thisLines.length;
 
     for (let i = 0; i < len; i++) {
       if (thisLines[i].intersectsCircle(circle)) {
@@ -322,10 +331,10 @@ export class Polygon {
       return false;
     }
 
-    let thisLines = this.mLines;
-    let thisLen = thisLines.length;
-    let rectangleLines = rectangle.lines;
-    let rectangleLen = rectangleLines.length;
+    const thisLines = this.mLines;
+    const thisLen = thisLines.length;
+    const rectangleLines = rectangle.lines;
+    const rectangleLen = rectangleLines.length;
 
     for (let i = 0; i < thisLen; i++) {
       for (let j = 0; j < rectangleLen; j++) {
@@ -344,10 +353,10 @@ export class Polygon {
    * @return {black-engine~Polygon} This polygon.
    */
   refresh() {
-    let center = this.mCenter;
-    let bounds = this.mBounds;
-    let vertices = this.mVertices;
-    let lines = this.mLines = [];
+    const center = this.mCenter;
+    const bounds = this.mBounds;
+    const vertices = this.mVertices;
+    const lines = this.mLines = [];
     center.set(0, 0);
 
     // bounds
@@ -357,11 +366,11 @@ export class Polygon {
     let minY = Number.MAX_VALUE;
 
     for (let i = 0; i < vertices.length; i++) {
-      let vector = vertices[i];
+      const vector = vertices[i];
       center.add(vector);
 
       // bounds
-      let {
+      const {
         x,
         y
       } = vector;
@@ -385,9 +394,9 @@ export class Polygon {
    * @return {black-engine~Polygon} This polygon.
    */
   refreshCenter() {
-    let center = this.mCenter;
-    let vertices = this.mVertices;
-    let len = vertices.length;
+    const center = this.mCenter;
+    const vertices = this.mVertices;
+    const len = vertices.length;
     center.set(0, 0);
 
     for (let i = 0; i < len; i++) {
@@ -405,13 +414,13 @@ export class Polygon {
    * @return {black-engine~Polygon} This polygon.
    */
   refreshBounds() {
-    let bounds = this.mBounds;
-    let vertices = this.mVertices;
+    const bounds = this.mBounds;
+    const vertices = this.mVertices;
     let maxX = -Number.MAX_VALUE;
     let maxY = -Number.MAX_VALUE;
     let minX = Number.MAX_VALUE;
     let minY = Number.MAX_VALUE;
-    let len = vertices.length;
+    const len = vertices.length;
     let x;
     let y;
 
@@ -435,8 +444,8 @@ export class Polygon {
    * @return {black-engine~Polygon} This polygon.
    */
   refreshLines() {
-    let vertices = this.mVertices;
-    let lines = this.mLines = [];
+    const vertices = this.mVertices;
+    const lines = this.mLines = [];
 
     for (let i = 0; i < vertices.length; i += 2) {
       lines.push(new Line(vertices[i], vertices[i + 1] || vertices[0]));
@@ -452,8 +461,8 @@ export class Polygon {
    * @return {black-engine~Polygon} Created polygon.
    */
   static fromPath(path) {
-    let vertices = [];
-    let path2 = path.split(' ');
+    const vertices = [];
+    const path2 = path.split(' ');
 
     for (let i = 0; i < path2.length; i += 2) {
       vertices.push(new Vector(Number(path2[i]), Number(path2[i + 1])));
@@ -469,13 +478,13 @@ export class Polygon {
    * @return {black-engine~Polygon} This polygon.
    */
   setRotation(rotation) {
-    let center = this.mCenter;
-    let vertices = this.mVertices;
-    let cos = Math.cos(rotation);
-    let sin = Math.sin(rotation);
+    const center = this.mCenter;
+    const vertices = this.mVertices;
+    const cos = Math.cos(rotation);
+    const sin = Math.sin(rotation);
 
     for (let i = 0, len = vertices.length; i < len; i++) {
-      let vector = vertices[i];
+      const vector = vertices[i];
       vector
         .subtract(center)
         .set(vector.x * cos - vector.y * sin, vector.x * sin + vector.y * cos)
@@ -492,9 +501,9 @@ export class Polygon {
    * @return {black-engine~Polygon} This vertices.
    */
   setTranslation(point) {
-    let center = this.mCenter;
-    let vertices = this.mVertices;
-    let len = vertices.length;
+    const center = this.mCenter;
+    const vertices = this.mVertices;
+    const len = vertices.length;
     point.subtract(center);
 
     for (let i = 0; i < len; i++) {
@@ -506,7 +515,7 @@ export class Polygon {
 
   /**
    * Returns array of vertices.
-   * 
+   *
    * @returns {Array<black-engine~Vector>}
    */
   get vertices() {
@@ -518,7 +527,7 @@ export class Polygon {
    * @returns {black-engine~Vector}
    */
   get center() {
-    return this.mCenter;  
+    return this.mCenter;
   }
 
   // @ifdef DEBUG
@@ -530,8 +539,8 @@ export class Polygon {
    * @return {string} Description.
    */
   toString(digits = 2) {
-    let thisLines = this.mLines;
-    let thisVertices = this.mVertices;
+    const thisLines = this.mLines;
+    const thisVertices = this.mVertices;
     let len = thisLines.length;
     let vertices = '';
     let lines = '';

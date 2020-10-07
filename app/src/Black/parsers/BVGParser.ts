@@ -56,6 +56,8 @@ const shapeCmds = {
  */
 
 export class BVGParser extends ParserBase {
+	public _defs: any;
+
   /**
    * Creates new instance of BVGParser
    */

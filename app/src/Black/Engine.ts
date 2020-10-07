@@ -1,3 +1,4 @@
+/* tslint:disable:max-line-length no-console prefer-for-of */
 import { MessageDispatcher } from "./messages/MessageDispatcher";
 import { Device } from "./system/Device";
 import { Viewport } from "./core/Viewport";
@@ -23,18 +24,50 @@ let ID = 0;
  * @extends black-engine~MessageDispatcher
  */
 export class Engine extends MessageDispatcher {
+	public id: any;
+	public mContainerElementId: any;
+	public mContainerElement: any;
+	public mVideoDriverClass: any;
+	public mSystemClasses: any;
+	public mStageWidth: any;
+	public mStageHeight: any;
+	public mLastUpdateTime: any;
+	public mFrameNum: any;
+	public mNumUpdates: any;
+	public mMaxUpdatesPerFrame: any;
+	public mLastRenderTime: any;
+	public mSystems: any;
+	public mGameObject: any;
+	public mIsRunning: any;
+	public mIsStarted: any;
+	public mIsPanic: any;
+	public mRAFHandle: any;
+	public mViewport: any;
+	public mVideo: any;
+	public mPaused: any;
+	public mUnpausing: any;
+	public mPauseOnHide: any;
+	public mPauseOnBlur: any;
+	public mTagCache: any;
+	public mGameClass: any;
+	public mStage: any;
+	public mWasStopped: any;
+	public mFrameTimes: any;
+	public mUseHiDPR: any;
+	public mPendingDispose: any;
+
   /**
    * Creates a new Black instance.
-   * 
+   *
    * First parameter has to be a id of the HTML div element the game will be rendered to.
    * Second parameter has to be `GameObject` class which will be the root object of your application.
    * Third parameter has to be a class name of `VideoNullDriver` subclass eg `CanvasDriver`.
    * Fourth parameter is optional array of System to use,
-   * 
+   *
    * @example
    * // Creates new Black instance with MyGame as a root class, CanvasDriver as renderer and Arcade physics as a system.
    * new Black('game-container', MyGame, CanvasDriver, [Arcade]);
-   * 
+   *
    * @param {string}                                                       containerElementId The id of an DOM element.
    * @param {function(new: black-engine~GameObject)}                                    gameClass          Type name of an GameObject to start execution from.
    * @param {function(new: black-engine~VideoNullDriver, HTMLElement, number, number)}  videoDriverClass   Type name of an VideoDriver (VideoNullDriver, DOMDriver or CanvasDriver)
@@ -47,183 +80,183 @@ export class Engine extends MessageDispatcher {
 
     Black.engine = this;
 
-    /** 
-     * @private 
-     * @type {string} 
+    /**
+     * @private
+     * @type {string}
      */
     this.mContainerElementId = containerElementId;
 
-    /** 
-     * @private 
-     * @type {HTMLElement|null} 
+    /**
+     * @private
+     * @type {HTMLElement|null}
      */
     this.mContainerElement = null;
 
-    /** 
-     * @private 
-     * @type {function(new: black-engine~VideoNullDriver, HTMLElement, number, number)} 
+    /**
+     * @private
+     * @type {function(new: black-engine~VideoNullDriver, HTMLElement, number, number)}
      */
     this.mVideoDriverClass = videoDriverClass;
 
-    /** 
-     * @private 
-     * @type {Array<function(new: black-engine~System)>} 
+    /**
+     * @private
+     * @type {Array<function(new: black-engine~System)>}
      */
     this.mSystemClasses = systemClasses;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mStageWidth = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mStageHeight = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mLastUpdateTime = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mFrameNum = 0;
 
-    /** 
+    /**
      * @private
      * @type {number}
      */
     this.mNumUpdates = 0;
 
-    /** 
+    /**
      * @private
      * @type {number}
      */
     this.mMaxUpdatesPerFrame = 60;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mLastRenderTime = 0;
 
-    /** 
-     * @private 
-     * @type {Array<black-engine~System>} 
+    /**
+     * @private
+     * @type {Array<black-engine~System>}
      */
     this.mSystems = [];
 
-    /** 
-     * @private 
-     * @type {black-engine~GameObject|null} 
+    /**
+     * @private
+     * @type {black-engine~GameObject|null}
      */
     this.mGameObject = null;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mIsRunning = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mIsStarted = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mIsPanic = false;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mRAFHandle = -1; // not sure
 
-    /** 
-     * @private 
-     * @type {black-engine~Viewport} 
+    /**
+     * @private
+     * @type {black-engine~Viewport}
      */
     this.mViewport = null;
 
-    /** 
-     * @private 
-     * @type {black-engine~VideoNullDriver} 
+    /**
+     * @private
+     * @type {black-engine~VideoNullDriver}
      */
     this.mVideo = null;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mPaused = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mUnpausing = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mPauseOnHide = true;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mPauseOnBlur = true;
 
-    /** 
-     * @private 
-     * @type {Object<string, Array>} 
+    /**
+     * @private
+     * @type {Object<string, Array>}
      */
     this.mTagCache = {};
 
-    /** 
-     * @private 
-     * @type {function(new: black-engine~GameObject)} 
+    /**
+     * @private
+     * @type {function(new: black-engine~GameObject)}
      */
     this.mGameClass = gameClass;
 
-    /** 
-     * @private 
-     * @type {black-engine~Stage} 
+    /**
+     * @private
+     * @type {black-engine~Stage}
      */
     this.mStage = null;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mWasStopped = false;
 
-    /** 
-     * @private 
-     * @type {Array<number>} 
+    /**
+     * @private
+     * @type {Array<number>}
      */
     this.mFrameTimes = [];
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mUseHiDPR = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mPendingDispose = false;
 
@@ -317,13 +350,15 @@ export class Engine extends MessageDispatcher {
   __checkVisibility() {
     if (typeof document.hidden === 'undefined') {
       // lets fake hidden if there is no support for Page Visibility API
+      // @ts-ignore
       document.hidden = false;
+      // @ts-ignore
       document.visibilityState = 'visible';
 
       window.onpagehide = event => this.__onVisibilityChangeFallback(event);
       window.onpageshow = event => this.__onVisibilityChangeFallback(event);
     } else {
-      document.addEventListener('visibilitychange', event => this.__onVisibilityChange(event), false);
+      document.addEventListener('visibilitychange', event => this.__onVisibilityChange(), false);
     }
 
     window.onblur = event => this.__onVisibilityChangeFallback(event);
@@ -348,7 +383,7 @@ export class Engine extends MessageDispatcher {
    * @returns {void}
    */
   __onVisibilityChangeFallback(event) {
-    let type = event.type;
+    const type = event.type;
 
     if (type === 'blur' && this.mPauseOnBlur === true)
       this.pause();
@@ -374,7 +409,7 @@ export class Engine extends MessageDispatcher {
    */
   hasSystem(systemTypeName) {
     for (let i = 0; i < this.mSystems.length; i++) {
-      let c = this.mSystems[i];
+      const c = this.mSystems[i];
       if (c instanceof systemTypeName)
         return true;
     }
@@ -400,7 +435,7 @@ export class Engine extends MessageDispatcher {
    */
   getSystem(typeName) {
     for (let i = 0; i < this.mSystems.length; i++) {
-      let s = this.mSystems[i];
+      const s = this.mSystems[i];
       if (s instanceof typeName)
         return s;
     }
@@ -441,7 +476,7 @@ export class Engine extends MessageDispatcher {
     this.mStage.__refresh();
 
     /**
-     * Posted when all systems, stage and driver ready to be used. 
+     * Posted when all systems, stage and driver ready to be used.
      *
      * @event Engine#ready
      */
@@ -513,8 +548,8 @@ export class Engine extends MessageDispatcher {
    * @param {boolean} forceUpdate
    * @return {void}
    */
-  __update(timestamp, forceUpdate) {
-    let time = Black.time;
+  __update(timestamp, forceUpdate?) {
+    const time = Black.time;
 
     // Calculate FPS
     if (this.mPaused === true && this.mUnpausing === true) {
@@ -538,10 +573,10 @@ export class Engine extends MessageDispatcher {
 
     if (numTicks > this.mMaxUpdatesPerFrame) {
       /**
-       * Posted when engine is not able to achieve desired amount of updates per second. 
-       * 
-       * Usually happens when user switches to another tab in browser or update logic is too heavy to be executed 
-       * withing one update loop. Lowering `Black.ups` value can help if update is heavy. 
+       * Posted when engine is not able to achieve desired amount of updates per second.
+       *
+       * Usually happens when user switches to another tab in browser or update logic is too heavy to be executed
+       * withing one update loop. Lowering `Black.ups` value can help if update is heavy.
        * Increasing `Black.maxUpdatesPerFrame` can lead to dead lock.
        *
        * @event Engine#looped
@@ -561,7 +596,7 @@ export class Engine extends MessageDispatcher {
       this.__internalSystemPostUpdate();
     }
 
-    for (let l = timestamp - time.mDeltaTimeMs; this.mLastUpdateTime < l;)
+    for (const l = timestamp - time.mDeltaTimeMs; this.mLastUpdateTime < l;)
       this.mLastUpdateTime += time.mDeltaTimeMs;
 
     if (numTicks === 0)
@@ -629,7 +664,7 @@ export class Engine extends MessageDispatcher {
    */
   onTagUpdated(child, oldTag, newTag) {
     if (oldTag !== null) {
-      let arr = this.mTagCache[oldTag];
+      const arr = this.mTagCache[oldTag];
       arr.splice(arr.indexOf(child), 1);
 
       if (arr.length === 0)
@@ -670,7 +705,7 @@ export class Engine extends MessageDispatcher {
       x.onAdded();
 
       for (let i = 0; i < x.mComponents.length; i++) {
-        let c = x.mComponents[i];
+        const c = x.mComponents[i];
 
         if (c.mAdded === true)
           continue;
@@ -708,8 +743,8 @@ export class Engine extends MessageDispatcher {
     for (let i = 0; i < this.mSystems.length; i++)
       this.mSystems[i].onChildrenRemoved(child);
 
-    let forEach = (gameObject, action) => {
-      let cloned = gameObject.mChildren.slice();
+    const forEach = (gameObject, action) => {
+      const cloned = gameObject.mChildren.slice();
       action(gameObject);
 
       for (let i = 0; i < cloned.length; i++) {
@@ -725,7 +760,7 @@ export class Engine extends MessageDispatcher {
         x.onRemoved();
 
         for (let i = 0; i < x.mComponents.length; i++) {
-          let c = x.mComponents[i];
+          const c = x.mComponents[i];
 
           if (c.mAdded === false)
             continue;
@@ -881,9 +916,9 @@ export class Engine extends MessageDispatcher {
   }
 
   /**
-   * Gets/sets whenever driver should be created with high DPR support. 
+   * Gets/sets whenever driver should be created with high DPR support.
    * NOTE: Cannot be changed at runtime.
-   * 
+   *
    * @returns {boolean}
    */
   get useHiDPR() {
@@ -919,7 +954,7 @@ export class Engine extends MessageDispatcher {
     return this.mNumUpdates;
   }
 
-  /** 
+  /**
    * Limit for number of updates to be done per one RAF.
    * @returns {number}
    */
@@ -927,7 +962,7 @@ export class Engine extends MessageDispatcher {
     return this.mMaxUpdatesPerFrame;
   }
 
-  /** 
+  /**
    * Limit for number of updates to be done per one RAF.
    * @param {number} value
    * @returns {void}

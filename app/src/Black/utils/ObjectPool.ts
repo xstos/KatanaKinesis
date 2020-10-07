@@ -6,6 +6,10 @@ import { Debug } from "../core/Debug";
  * @cat utils
  */
 export class ObjectPool {
+	public mReleased: any;
+	public mCapacity: any;
+	public mType: any;
+
   /**
    * Creates new ObjectPool instance.
    * @param {Function} type 

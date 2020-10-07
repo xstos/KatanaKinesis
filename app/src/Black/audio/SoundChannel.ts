@@ -10,6 +10,11 @@ import { Message } from "../messages/Message";
  * @cat audio
  */
 export class SoundChannel {
+	public mName: any;
+	public mGain: any;
+	public mSounds: any;
+	public mEffects: any;
+
   /**
    * Creates instance of SoundChannel with specific name
    * 

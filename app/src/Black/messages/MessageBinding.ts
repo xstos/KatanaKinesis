@@ -7,6 +7,15 @@ import { Glob } from '../utils/Glob';
  * @cat core
  */
 export class MessageBinding {
+	public owner: any;
+	public name: any;
+	public callback: any;
+	public isOnce: any;
+	public context: any;
+	public pathPattern: any;
+	public glob: any;
+	public type: any;
+
   /**
    * @param {black-engine~MessageDispatcher} owner                The owner of this binding.
    * @param {string} name                            Name of the message.

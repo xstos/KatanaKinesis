@@ -12,6 +12,14 @@ import { Texture } from "../textures/Texture";
  * @cat drivers
  */
 export class TextRenderer extends Renderer {
+	public texture: any;
+	public mTransformCache: any;
+	public mTransform: any;
+	public mUseTransformCache: any;
+	public mCanvas: any;
+	public mContext: any;
+	public mMetrics: any;
+
   /**
    * Creates new instance of TextRenderer.
    */

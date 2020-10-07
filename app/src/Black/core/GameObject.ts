@@ -1,3 +1,4 @@
+/* tslint:disable:no-empty no-bitwise max-line-length no-unnecessary-initializer no-shadowed-variable only-arrow-functions prefer-for-of */
 import { MessageDispatcher } from "../messages/MessageDispatcher";
 import { Component } from "./Component";
 import { Renderer } from "../drivers/Renderer";
@@ -21,208 +22,242 @@ let ID = 0;
  * @extends black-engine~MessageDispatcher
  */
 export class GameObject extends MessageDispatcher {
+	public mId: any;
+	public mName: any;
+	public mComponents: any;
+	public mChildren: any;
+	public mX: any;
+	public mY: any;
+	public mScaleX: any;
+	public mScaleY: any;
+	public mPivotX: any;
+	public mPivotY: any;
+	public mSkewX: any;
+	public mSkewY: any;
+	public mAnchorX: any;
+	public mAnchorY: any;
+	public mPivotOffsetX: any;
+	public mPivotOffsetY: any;
+	public mRotation: any;
+	public mBoundsCache: any;
+	public mLocalTransform: any;
+	public mWorldTransform: any;
+	public mWorldTransformInverted: any;
+	public mDirty: any;
+	public mParent: any;
+	public mTag: any;
+	public mAdded: any;
+	public mNumChildrenRemoved: any;
+	public mNumComponentsRemoved: any;
+	public mDirtyFrameNum: any;
+	public mSuspendDirty: any;
+	public mCollidersCache: any;
+	public mChildOrComponentBeenAdded: any;
+	public mChildrenClone: any;
+	public mComponentClone: any;
+
   /**
    * Creates new instance of GameObject.
    */
   constructor() {
     super(true);
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mId = ++ID;
 
-    /** 
-     * @private 
-     * @type {string|null} 
+    /**
+     * @private
+     * @type {string|null}
      */
     this.mName = null;
 
-    /** 
-     * @private 
-     * @type {Array<black-engine~Component>} 
+    /**
+     * @private
+     * @type {Array<black-engine~Component>}
      */
     this.mComponents = [];
 
-    /** 
-     * @protected 
-     * @type {Array<black-engine~GameObject>} 
+    /**
+     * @protected
+     * @type {Array<black-engine~GameObject>}
      */
     this.mChildren = [];
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mX = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mY = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mScaleX = 1;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mScaleY = 1;
 
-    /** 
-     * @protected 
-     * @type {number} 
+    /**
+     * @protected
+     * @type {number}
      */
     this.mPivotX = 0;
 
-    /** 
-     * @protected 
-     * @type {number} 
+    /**
+     * @protected
+     * @type {number}
      */
     this.mPivotY = 0;
 
-    /** 
-     * @protected 
-     * @type {number} 
+    /**
+     * @protected
+     * @type {number}
      */
     this.mSkewX = 0;
 
-    /** 
-     * @protected 
-     * @type {number} 
+    /**
+     * @protected
+     * @type {number}
      */
     this.mSkewY = 0;
 
-    /** 
-     * @protected 
-     * @type {number|null} 
+    /**
+     * @protected
+     * @type {number|null}
      */
     this.mAnchorX = null;
 
-    /** 
-     * @protected 
-     * @type {number|null} 
+    /**
+     * @protected
+     * @type {number|null}
      */
     this.mAnchorY = null;
 
-    /** 
-     * @protected 
-     * @type {number} 
+    /**
+     * @protected
+     * @type {number}
      */
     this.mPivotOffsetX = 0;
 
-    /** 
-     * @protected 
-     * @type {number} 
+    /**
+     * @protected
+     * @type {number}
      */
     this.mPivotOffsetY = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mRotation = 0;
 
-    /** 
-     * @protected 
-     * @type {black-engine~Rectangle} 
+    /**
+     * @protected
+     * @type {black-engine~Rectangle}
      */
     this.mBoundsCache = new Rectangle();
 
-    /** 
-     * @private 
-     * @type {black-engine~Matrix} 
+    /**
+     * @private
+     * @type {black-engine~Matrix}
      */
     this.mLocalTransform = new Matrix();
 
-    /** 
-     * @private 
-     * @type {black-engine~Matrix} 
+    /**
+     * @private
+     * @type {black-engine~Matrix}
      */
     this.mWorldTransform = new Matrix();
 
-    /** 
-     * @private 
-     * @type {black-engine~Matrix} 
+    /**
+     * @private
+     * @type {black-engine~Matrix}
      */
     this.mWorldTransformInverted = new Matrix();
 
-    /** 
-     * @private 
-     * @type {black-engine~DirtyFlag} 
+    /**
+     * @private
+     * @type {black-engine~DirtyFlag}
      */
     this.mDirty = DirtyFlag.DIRTY;
 
-    /** 
-     * @protected 
-     * @type {black-engine~GameObject} 
+    /**
+     * @protected
+     * @type {black-engine~GameObject}
      */
     this.mParent = null;
 
-    /** 
-     * @private 
-     * @type {string|null} 
+    /**
+     * @private
+     * @type {string|null}
      */
     this.mTag = null;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mAdded = false;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mNumChildrenRemoved = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mNumComponentsRemoved = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mDirtyFrameNum = 0;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mSuspendDirty = false;
 
     // cache all colliders for fast access
-    /** 
-     * @private 
-     * @type {Array<black-engine~Collider>} 
+    /**
+     * @private
+     * @type {Array<black-engine~Collider>}
      */
     this.mCollidersCache = [];
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mChildOrComponentBeenAdded = false;
 
-    /** 
-     * @private 
-     * @type {Array<black-engine~GameObject>} 
+    /**
+     * @private
+     * @type {Array<black-engine~GameObject>}
      */
     this.mChildrenClone = null;
 
-    /** 
-     * @private 
-     * @type {Array<black-engine~Component>} 
+    /**
+     * @private
+     * @type {Array<black-engine~Component>}
      */
     this.mComponentClone = null;
   }
@@ -231,7 +266,7 @@ export class GameObject extends MessageDispatcher {
     // can be helpful if there are many children
     this.mSuspendDirty = true;
 
-    for (let property in values) {
+    for (const property in values) {
       if (values.hasOwnProperty(property)) {
         this[property] = values[property];
       }
@@ -254,9 +289,9 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Returns true if object was clean for at least 1 update.
-   * 
+   *
    * Note: Make sure to apply all changes to this game object before checking for static.
-   * 
+   *
    * @param {boolean} [includeChildren=true]
    * @returns {boolean}
    */
@@ -294,12 +329,13 @@ export class GameObject extends MessageDispatcher {
   /**
    * Sugar method for adding child `GameObjects` or `Components` in a simple manner.
    *
-   * @param {...(black-engine~GameObject|black-engine~Component)} gameObjectsAndOrComponents A `GameObject` or `Component` to add.
+   * @param {...(black-engine~GameObject|black-engine~Component)} gameObjectsAndOrComponents
+   * A `GameObject` or `Component` to add.
    * @return {black-engine~GameObject} This game object
    */
   add(...gameObjectsAndOrComponents) {
     for (let i = 0; i < gameObjectsAndOrComponents.length; i++) {
-      let gooc = gameObjectsAndOrComponents[i];
+      const gooc = gameObjectsAndOrComponents[i];
 
       if (gooc instanceof GameObject)
         this.addChild( /** @type {!GameObject} */(gooc));
@@ -311,7 +347,7 @@ export class GameObject extends MessageDispatcher {
   }
 
   /**
-   * Adds a child `GameObject` instance to this `GameObject` instance. The child is added to the top of all other 
+   * Adds a child `GameObject` instance to this `GameObject` instance. The child is added to the top of all other
    * children in this GameObject instance.
    *
    * @param  {black-engine~GameObject} child The GameObject instance to add as a child of this GameObject instance.
@@ -322,7 +358,7 @@ export class GameObject extends MessageDispatcher {
   }
 
   /**
-   * Adds a child `GameObject` instance to this `GameObject` instance. The child is added to the top of all other 
+   * Adds a child `GameObject` instance to this `GameObject` instance. The child is added to the top of all other
    * children in this GameObject instance.
    *
    * @param  {black-engine~GameObject} child The GameObject instance to add as a child of this GameObject instance.
@@ -332,7 +368,7 @@ export class GameObject extends MessageDispatcher {
   addChildAt(child, index = 0) {
     Debug.assert(child instanceof GameObject, 'Type error.');
 
-    let numChildren = this.mChildren.length;
+    const numChildren = this.mChildren.length;
 
     if (index < 0 || index > numChildren)
       throw new Error('Child index is out of bounds.');
@@ -381,7 +417,7 @@ export class GameObject extends MessageDispatcher {
    * @returns {black-engine~GameObject} The `GameObject` instance that you pass in the child parameter.
    */
   setChildIndex(child, index) {
-    let ix = this.mChildren.indexOf(child);
+    const ix = this.mChildren.indexOf(child);
 
     if (ix < 0)
       throw new Error('Given child element was not found in children list.');
@@ -421,7 +457,7 @@ export class GameObject extends MessageDispatcher {
    * @return {black-engine~GameObject} The `GameObject` instance that you pass in the child parameter.
    */
   removeChild(child) {
-    let ix = this.mChildren.indexOf(child);
+    const ix = this.mChildren.indexOf(child);
 
     if (ix < 0)
       return null;
@@ -452,11 +488,11 @@ export class GameObject extends MessageDispatcher {
    * @return {black-engine~GameObject|null} The removed `GameObject` instance or null if not found.
    */
   removeChildAt(index) {
-    let child = this.mChildren.splice(index, 1)[0];
+    const child = this.mChildren.splice(index, 1)[0];
     if (child == null)
       return null;
 
-    let hadRoot = this.stage !== null;
+    const hadRoot = this.stage !== null;
 
     child.__setParent(null);
 
@@ -503,7 +539,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Adds Component to the list at given position.
-   * 
+   *
    * @throws {Error}
    * @param {black-engine~Component} component The instances of Component to be added,
    * @param {number} [index=0] Position in the list.
@@ -515,7 +551,7 @@ export class GameObject extends MessageDispatcher {
     if (component.gameObject)
       throw new Error('Component cannot be added to two game objects at the same time.');
 
-    let numComponents = this.mComponents.length;
+    const numComponents = this.mComponents.length;
 
     if (index < 0 || index > numComponents)
       throw new Error('Component index is out of bounds.');
@@ -536,12 +572,12 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Removes component at given index.
-   * 
+   *
    * @param {number} index Negative index will remove component from the end.
    * @returns {black-engine~Component|null} Returns removed component of null.
    */
   removeComponentAt(index) {
-    let instance = this.mComponents.splice(index, 1)[0];
+    const instance = this.mComponents.splice(index, 1)[0];
 
     if (instance == null)
       return null;
@@ -550,7 +586,7 @@ export class GameObject extends MessageDispatcher {
     instance.mGameObject = null;
 
     if (instance instanceof Collider) {
-      let colliderIx = this.mCollidersCache.indexOf(instance);
+      const colliderIx = this.mCollidersCache.indexOf(instance);
       if (colliderIx > -1)
         this.mCollidersCache.splice(colliderIx, 1);
     }
@@ -575,7 +611,7 @@ export class GameObject extends MessageDispatcher {
 
     Debug.assert(instance instanceof Component, 'Type error.');
 
-    let index = this.mComponents.indexOf(instance);
+    const index = this.mComponents.indexOf(instance);
     if (index > -1)
       return this.removeComponentAt(index);
 
@@ -601,7 +637,7 @@ export class GameObject extends MessageDispatcher {
    */
   getComponent(typeName) {
     for (let i = 0; i < this.mComponents.length; i++) {
-      let c = this.mComponents[i];
+      const c = this.mComponents[i];
       if (c instanceof typeName)
         return c;
     }
@@ -644,14 +680,14 @@ export class GameObject extends MessageDispatcher {
         if (this.mRotation === 0) {
           return this.mLocalTransform.set(this.mScaleX, 0, 0, this.mScaleY, this.mX - this.mPivotX * this.mScaleX, this.mY - this.mPivotY * this.mScaleY);
         } else {
-          let cos = Math.cos(this.mRotation);
-          let sin = Math.sin(this.mRotation);
-          let a = this.mScaleX * cos;
-          let b = this.mScaleX * sin;
-          let c = this.mScaleY * -sin;
-          let d = this.mScaleY * cos;
-          let tx = this.mX - this.mPivotX * a - this.mPivotY * c;
-          let ty = this.mY - this.mPivotX * b - this.mPivotY * d;
+          const cos = Math.cos(this.mRotation);
+          const sin = Math.sin(this.mRotation);
+          const a = this.mScaleX * cos;
+          const b = this.mScaleX * sin;
+          const c = this.mScaleY * -sin;
+          const d = this.mScaleY * cos;
+          const tx = this.mX - this.mPivotX * a - this.mPivotY * c;
+          const ty = this.mY - this.mPivotX * b - this.mPivotY * d;
           return this.mLocalTransform.set(a, b, c, d, tx, ty);
         }
       } else {
@@ -660,10 +696,10 @@ export class GameObject extends MessageDispatcher {
         this.mLocalTransform.skew(this.mSkewX, this.mSkewY);
         this.mLocalTransform.rotate(this.mRotation);
 
-        let a = this.mLocalTransform.data[0];
-        let b = this.mLocalTransform.data[1];
-        let c = this.mLocalTransform.data[2];
-        let d = this.mLocalTransform.data[3];
+        const a = this.mLocalTransform.data[0];
+        const b = this.mLocalTransform.data[1];
+        const c = this.mLocalTransform.data[2];
+        const d = this.mLocalTransform.data[3];
         let tx = this.mX;
         let ty = this.mY;
 
@@ -687,12 +723,12 @@ export class GameObject extends MessageDispatcher {
   set localTransformation(value) {
     const PI_Q = Math.PI / 4.0;
 
-    let a = value.data[0];
-    let b = value.data[1];
-    let c = value.data[2];
-    let d = value.data[3];
-    let tx = value.data[4];
-    let ty = value.data[5];
+    const a = value.data[0];
+    const b = value.data[1];
+    const c = value.data[2];
+    const d = value.data[3];
+    const tx = value.data[4];
+    const ty = value.data[5];
 
     this.mPivotOffsetX = this.mPivotOffsetY = 0;
     this.mAnchorX = this.mAnchorX = null;
@@ -781,7 +817,7 @@ export class GameObject extends MessageDispatcher {
         if (this.mAdded === false)
           break;
 
-        let c = this.mComponentClone[k];
+        const c = this.mComponentClone[k];
 
         if (c.mAdded === false || c.enabled === false)
           continue;
@@ -794,7 +830,7 @@ export class GameObject extends MessageDispatcher {
       this.mChildrenClone = this.mChildren.slice();
 
       for (let i = 0; i < this.mChildrenClone.length; i++) {
-        let child = this.mChildrenClone[i];
+        const child = this.mChildrenClone[i];
 
         if (child.mAdded === true)
           child.__update();
@@ -805,7 +841,7 @@ export class GameObject extends MessageDispatcher {
   /**
    * Called at every engine update. The execution order of onFixedUpdate, onUpdate and onPostUpdate is
    * going from top to bottom of the display list.
-   * 
+   *
    * @action
    * @protected
    * @return {void}
@@ -827,7 +863,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Returns world bounds of this object and all children if specified (true by default).
-   * 
+   *
    * `object.getBounds()` - relative to parent (default).<br>
    * `object.getBounds(object)` - local bounds.<br>
    * `object.getBounds(object.parent)` - relative to parent.<br>
@@ -850,13 +886,13 @@ export class GameObject extends MessageDispatcher {
       // local
     } else if (space == this.mParent) {
       if (includeChildren === false) {
-        let matrix = Matrix.pool.get();
+        const matrix = Matrix.pool.get();
         matrix.copyFrom(this.localTransformation);
         matrix.transformRect(outRect, outRect);
         Matrix.pool.release(matrix);
       }
       else if (includeChildren === true && this.mDirty & DirtyFlag.BOUNDS) {
-        let matrix = Matrix.pool.get();
+        const matrix = Matrix.pool.get();
         matrix.copyFrom(this.localTransformation);
         matrix.transformRect(outRect, outRect);
         Matrix.pool.release(matrix);
@@ -865,7 +901,7 @@ export class GameObject extends MessageDispatcher {
         return outRect;
       }
     } else {
-      let matrix = Matrix.pool.get();
+      const matrix = Matrix.pool.get();
       matrix.copyFrom(this.worldTransformation);
       matrix.prepend(space.worldTransformationInverted);
       matrix.transformRect(outRect, outRect);
@@ -873,7 +909,7 @@ export class GameObject extends MessageDispatcher {
     }
 
     if (includeChildren === true) {
-      let childBounds = Rectangle.pool.get();
+      const childBounds = Rectangle.pool.get();
 
       for (let i = 0; i < this.mChildren.length; i++) {
         childBounds.zero();
@@ -895,16 +931,16 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Returns stage relative bounds of this object excluding it's children;
-   * 
+   *
    * @param {black-engine~Rectangle=} [outRect=null] Rectangle to be store resulting bounds in.
-   * @returns {black-engine~Rectangle} 
+   * @returns {black-engine~Rectangle}
    */
   getStageBounds(outRect = undefined) {
     outRect = outRect || new Rectangle();
 
     this.onGetLocalBounds(outRect);
 
-    let matrix = Matrix.pool.get();
+    const matrix = Matrix.pool.get();
     matrix.copyFrom(this.worldTransformation);
     matrix.prepend(this.stage.worldTransformationInverted); // 120ms
     matrix.transformRect(outRect, outRect); // 250ms
@@ -920,18 +956,18 @@ export class GameObject extends MessageDispatcher {
    * @return {black-engine~GameObject|null}
    */
   hitTest(localPoint) {
-    let c = /** @type {InputComponent}*/ (this.getComponent(InputComponent));
-    let touchable = c !== null && c.touchable;
-    let insideMask = this.onHitTestMask(localPoint);
+    const c = /** @type {InputComponent}*/ (this.getComponent(InputComponent));
+    const touchable = c !== null && c.touchable;
+    const insideMask = this.onHitTestMask(localPoint);
 
     if (touchable === false || insideMask === false)
       return null;
 
     let target = null;
-    let numChildren = this.mChildren.length;
+    const numChildren = this.mChildren.length;
 
     for (let i = numChildren - 1; i >= 0; --i) {
-      let child = this.mChildren[i];
+      const child = this.mChildren[i];
 
       target = child.hitTest(localPoint);
 
@@ -948,20 +984,20 @@ export class GameObject extends MessageDispatcher {
   /**
    * @action
    * @protected
-   * @param {black-engine~Vector} localPoint 
+   * @param {black-engine~Vector} localPoint
    * @return {boolean}
    */
   onHitTest(localPoint) {
     let contains = false;
 
     // BEGINOF: WTF
-    let tmpVector = /** @type {Vector}*/ (Vector.pool.get());
+    const tmpVector = /** @type {Vector} */ (Vector.pool.get());
     this.worldTransformationInverted.transformVector(localPoint, tmpVector);
     // ENDOF: WTF
 
     if (this.mCollidersCache.length > 0) {
       for (let i = 0; i < this.mCollidersCache.length; i++) {
-        let collider = this.mCollidersCache[i];
+        const collider = this.mCollidersCache[i];
 
         contains = collider.containsPoint(tmpVector);
         if (contains === true)
@@ -978,7 +1014,7 @@ export class GameObject extends MessageDispatcher {
   /**
    * @action
    * @protected
-   * @param {black-engine~Vector} localPoint 
+   * @param {black-engine~Vector} localPoint
    * @return {boolean}
    */
   onHitTestMask(localPoint) {
@@ -1138,10 +1174,10 @@ export class GameObject extends MessageDispatcher {
     this.mY = value;
     this.setTransformDirty();
   }
-  
+
   /**
    * Gets/sets object position.
-   * 
+   *
    * NOTE: setting individual values on this vector will give zero results.
    * @returns {black-engine~Vector}
    */
@@ -1151,7 +1187,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Gets/sets object position.
-   * 
+   *
    * @param {black-engine~Vector} value
    * @returns {void}
    */
@@ -1217,7 +1253,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Gets/Sets the x-coordinate of the object's origin in its local space in percent.
-   * 
+   *
    * @param {number|null} value
    * @return {void}
    */
@@ -1234,7 +1270,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Gets/Sets the y-coordinate of the object's origin in its local space in percent.
-   * 
+   *
    * @param {number|null} value
    * @return {void}
    */
@@ -1251,7 +1287,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Returns current anchor-x value in range from 0 to 1.
-   * 
+   *
    * @returns {number|null}
    */
   get anchorX() {
@@ -1260,7 +1296,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Returns current anchor-y value in range from 0 to 1.
-   * 
+   *
    * @returns {number|null}
    */
   get anchorY() {
@@ -1269,7 +1305,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Returns current pivot-x value in range from 0 to 1.
-   * 
+   *
    * @returns {number}
    */
   get pivotX() {
@@ -1278,7 +1314,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Returns current pivot-y value in range from 0 to 1.
-   * 
+   *
    * @returns {number}
    */
   get pivotY() {
@@ -1286,7 +1322,7 @@ export class GameObject extends MessageDispatcher {
   }
 
   /**
-   * Sets the origin point relatively to its bounds. For example, setting x and y value to 0.5 will set origin to the 
+   * Sets the origin point relatively to its bounds. For example, setting x and y value to 0.5 will set origin to the
    * center of the object.
    *
    * @param {number}  [ax=0.5]               Align along x-axis.
@@ -1305,7 +1341,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Sets anchor point to given position. See `alignPivotOffset`.
-   * 
+   *
    * @deprecated
    *
    * @param {number}  [ax=0.5]               Align along x-axis.
@@ -1368,7 +1404,7 @@ export class GameObject extends MessageDispatcher {
   /**
    * Gets/Sets the scale factor of this object along y-axis.
    *
-   * 
+   *
    * @return {number}
    */
   get scaleY() {
@@ -1399,7 +1435,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * @param {number} value
-   * 
+   *
    * @returns {void}
    */
   set scale(value) {
@@ -1422,7 +1458,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * @param {number} value
-   * 
+   *
    * @returns {void}
    */
   set skewX(value) {
@@ -1445,7 +1481,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * @param {number} value
-   * 
+   *
    * @returns {void}
    */
   set skewY(value) {
@@ -1461,7 +1497,7 @@ export class GameObject extends MessageDispatcher {
   /**
    * Gets/Sets rotation in radians.
    *
-   * 
+   *
    * @return {number}
    */
   get rotation() {
@@ -1493,7 +1529,7 @@ export class GameObject extends MessageDispatcher {
 
   /**
    * Returns top most parent object or this if there is no parents.
-   * 
+   *
    * @readonly
    * @return {black-engine~GameObject}
    */
@@ -1619,7 +1655,7 @@ export class GameObject extends MessageDispatcher {
       return;
 
     /** @type {string|null} */
-    let old = this.mTag;
+    const old = this.mTag;
     this.mTag = value;
 
     if (this.mAdded)
@@ -1634,7 +1670,7 @@ export class GameObject extends MessageDispatcher {
    * @return {*}
    */
   spawn(gen, ctx = null) {
-    let iter = gen.apply(ctx == null ? this : ctx);
+    const iter = gen.apply(ctx == null ? this : ctx);
 
     function step(it) {
       if (it.done)
@@ -1657,7 +1693,8 @@ export class GameObject extends MessageDispatcher {
    * @return {function(*):*}
    */
   wait(seconds = 1) {
-    return cb => setTimeout(cb.bind(this, (/** @type {number} */(seconds) * 1000)), (/** @type {number} */(seconds) * 1000));
+    return cb => setTimeout(cb.bind(this, (/** @type {number} */(seconds) * 1000)), (/** @type {number} */(seconds)
+        * 1000));
   }
 
   /**
@@ -1667,7 +1704,7 @@ export class GameObject extends MessageDispatcher {
    * @return {function(*):*}
    */
   waitMessage(message) {
-    return cb => this.once(message, cb.bind(this));
+    return cb => this.once(message, cb.bind(this), null);
   }
 
   /**
@@ -1694,7 +1731,7 @@ export class GameObject extends MessageDispatcher {
   /**
    * @private
    * @ignore
-   * @param {black-engine~GameObject} go 
+   * @param {black-engine~GameObject} go
    */
   __updatePivots(go) {
     go.getBounds(go, true, Rectangle.__cache.zero());
@@ -1752,7 +1789,7 @@ export class GameObject extends MessageDispatcher {
    * @return {void}
    */
   set touchable(value) {
-    let c = /** @type {InputComponent}*/ (this.getComponent(InputComponent));
+    const c = /** @type {InputComponent} */ (this.getComponent(InputComponent));
 
     if (value === true) {
       if (c === null)
@@ -1771,7 +1808,7 @@ export class GameObject extends MessageDispatcher {
    * @return {boolean}
    */
   get touchable() {
-    let c = /** @type {InputComponent} */ (this.getComponent(InputComponent));
+    const c = /** @type {InputComponent} */ (this.getComponent(InputComponent));
     return c !== null && c.touchable === true;
   }
 
@@ -1791,9 +1828,9 @@ export class GameObject extends MessageDispatcher {
     let maxX = -Number.MAX_VALUE;
     let minY = Number.MAX_VALUE;
     let maxY = -Number.MAX_VALUE;
-    let xx = 0;
-    let yy = 0;
-    let tmpVector = new Vector();
+    const xx = 0;
+    const yy = 0;
+    const tmpVector = new Vector();
 
     for (let i = 0; i < points.length; i += 2) {
       worldTransformation.transformXY(points[i], points[i + 1], tmpVector);
@@ -1823,8 +1860,8 @@ export class GameObject extends MessageDispatcher {
    * @return {boolean} True if intersects.
    */
   static intersects(gameObject, point) {
-    let tmpVector = new Vector();
-    let inv = gameObject.worldTransformationInverted;
+    const tmpVector = new Vector();
+    const inv = gameObject.worldTransformationInverted;
 
     inv.transformVector(point, tmpVector);
 
@@ -1845,7 +1882,7 @@ export class GameObject extends MessageDispatcher {
     Vector.__cache.set();
 
     gameObject.worldTransformationInverted.transformVector(point, Vector.__cache);
-    let contains = gameObject.localBounds.containsXY(Vector.__cache.x, Vector.__cache.y);
+    const contains = gameObject.localBounds.containsXY(Vector.__cache.x, Vector.__cache.y);
 
     if (contains === false)
       return false;
@@ -1865,13 +1902,13 @@ export class GameObject extends MessageDispatcher {
   static intersectsWith(gameObject, point) {
     let obj = null;
     for (let i = gameObject.numChildren - 1; i >= 0; --i) {
-      let child = gameObject.mChildren[i];
+      const child = gameObject.mChildren[i];
 
       obj = GameObject.intersectsWith(child, point);
       if (obj != null)
         return obj;
 
-      let inside = GameObject.intersects(child, point);
+      const inside = GameObject.intersects(child, point);
       if (inside) {
         obj = child;
         break;
@@ -1909,12 +1946,12 @@ export class GameObject extends MessageDispatcher {
     Debug.assert(type !== null, 'type cannot be null.');
 
     /** @type {Array<Component>} */
-    let list = [];
+    const list = [];
 
     /** @type {function(GameObject, function(new:Component)):void} */
-    let f = function (gameObject, type) {
+    const f = function (gameObject, type) {
       for (let i = 0; i < gameObject.mComponents.length; i++) {
-        let c = gameObject.mComponents[i];
+        const c = gameObject.mComponents[i];
         if (c instanceof type)
           list.push(c);
       }
@@ -1968,7 +2005,7 @@ export class GameObject extends MessageDispatcher {
       return node;
 
     for (let i = 0; i < node.numChildren; i++) {
-      let r = GameObject.find(name, node.getChildAt(i));
+      const r = GameObject.find(name, node.getChildAt(i));
       if (r != null)
         return r;
     }
@@ -1993,7 +2030,7 @@ export class GameObject extends MessageDispatcher {
       return node;
 
     for (let i = 0; i < node.numChildren; i++) {
-      let r = GameObject.findById(id, node.getChildAt(i));
+      const r = GameObject.findById(id, node.getChildAt(i));
       if (r !== null)
         return r;
     }

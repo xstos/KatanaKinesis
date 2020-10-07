@@ -11,6 +11,8 @@ var pool = null;
  * @extends black-engine~Pair
  */
 export class BoxToBoxPair extends Pair {
+	public mProjections: any;
+
   /**
    * Creates new instance of BoxToBoxPair.
    */

@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { Component } from "../core/Component";
 import { Interpolation } from "./Interpolation";
 import { Time } from "../core/Time";
@@ -5,7 +6,7 @@ import { Message } from "../messages/Message";
 import { Ease } from "./Ease";
 import { Black } from "../Black";
 
-var defaultEase = Ease.smootherStep;
+let defaultEase = Ease.smootherStep;
 
 /**
  * A tweening component.
@@ -13,16 +14,40 @@ var defaultEase = Ease.smootherStep;
  * @fires Tween#start
  * @fires Tween#update
  * @fires Tween#loop
- * @fires Tween#complete 
- * 
+ * @fires Tween#complete
+ *
  * @cat animation
  * @unrestricted
  * @extends black-engine~Component
  */
 export class Tween extends Component {
+	public mValues: any;
+	public mDuration: any;
+	public mProperties: any;
+	public mPlugins: any;
+	public mIsPlaying: any;
+	public mIsPaused: any;
+	public mStartTime: any;
+	public mPausedTime: any;
+	public mValuesStart: any;
+	public mElapsed: any;
+	public mInterpolation: any;
+	public mDelay: any;
+	public mRepeatDelay: any;
+	public mRepeats: any;
+	public mInitiated: any;
+	public mStarted: any;
+	public mReversed: any;
+	public mYoyo: any;
+	public mIsYoyoBack: any;
+	public mReverseOnInit: any;
+	public mRemoveOnComplete: any;
+	public mPlayOnAdded: any;
+	public mEase: any;
+
   /**
    * Creates new instance of Tween Component.
-   * 
+   *
    * @param {Object}        values            The values to tween.
    * @param {number}        [duration=0.25]   Duraction in seconds.
    * @param {Object|null}   [properties=null] Tween properties Object.
@@ -31,146 +56,146 @@ export class Tween extends Component {
   constructor(values, duration = 0.250, properties = null, plugins = null) {
     super();
 
-    /** 
-     * @private 
-     * @dict 
+    /**
+     * @private
+     * @dict
      */
     this.mValues = values;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mDuration = duration;
 
-    /** 
-     * @private 
-     * @dict 
+    /**
+     * @private
+     * @dict
      */
     this.mProperties = properties;
 
-    /** 
-     * @private 
-     * @dict 
+    /**
+     * @private
+     * @dict
      */
     this.mPlugins = plugins;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mIsPlaying = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mIsPaused = false;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mStartTime = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mPausedTime = 0;
 
-    /** 
-     * @private 
-     * @dict 
+    /**
+     * @private
+     * @dict
      */
     this.mValuesStart = {};
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mElapsed = 0;
 
-    /** 
-     * @private 
-     * @type {function (Array, number):number} 
+    /**
+     * @private
+     * @type {function (Array, number):number}
      */
     this.mInterpolation = Interpolation.linear;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mDelay = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mRepeatDelay = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mRepeats = 0;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mInitiated = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mStarted = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mReversed = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mYoyo = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mIsYoyoBack = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mReverseOnInit = false;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mRemoveOnComplete = true;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mPlayOnAdded = true;
 
-    /** 
-     * @private 
-     * @type {function(number):number} 
+    /**
+     * @private
+     * @type {function(number):number}
      */
     this.mEase = defaultEase;
 
     if (this.mProperties !== null) {
-      for (let f in this.mProperties) {
+      for (const f in this.mProperties) {
         this[f] = /** @dict */ (this.mProperties[f]);
       }
     }
@@ -341,7 +366,7 @@ export class Tween extends Component {
 
   /**
    * Sets/Gets whether the tween should start playing automatically when added to the root.
-   * 
+   *
    * @return {boolean}
    */
   get playOnAdded() {
@@ -358,7 +383,7 @@ export class Tween extends Component {
 
   /**
    * Sets/Gets optional object with custom interpolation handler function for specific target properties.
-   * 
+   *
    * @return {Object}
    */
   get plugins() {
@@ -375,7 +400,7 @@ export class Tween extends Component {
 
   /**
    * Gets this tween duration.
-   * 
+   *
    * @return {number}
    */
   get duration() {
@@ -384,7 +409,7 @@ export class Tween extends Component {
 
   /**
    * Indicated whether the tween is playing and not paused.
-   * 
+   *
    * @return {boolean}
    */
   get isPlaying() {
@@ -509,7 +534,7 @@ export class Tween extends Component {
 
     this.on(Message.COMPLETE, () => {
       tween.play();
-    });
+    }, undefined);
 
     return tween;
   }
@@ -541,7 +566,7 @@ export class Tween extends Component {
   set(values) {
     this.mValues = values;
 
-    for (let f in this.mValues)
+    for (const f in this.mValues)
       this.mValuesStart[f] = parseFloat(this.gameObject[f]);
   }
 
@@ -569,7 +594,7 @@ export class Tween extends Component {
    * @return {void}
    */
   __reverse() {
-    for (let f in this.mValues) {
+    for (const f in this.mValues) {
       [this.mValues[f], this.mValuesStart[f]] = [this.mValuesStart[f], this.mValues[f]];
     }
   }
@@ -578,7 +603,7 @@ export class Tween extends Component {
     if (Black.engine.numUpdates !== 0)
       return;
 
-    let time = Black.time.now;
+    const time = Black.time.now;
 
     if (time < this.mStartTime || this.mIsPlaying === false || this.mIsPaused === true)
       return;
@@ -591,14 +616,14 @@ export class Tween extends Component {
     if (this.mElapsed > 1)
       this.mElapsed = 1;
 
-    let t = this.mEase(this.mIsYoyoBack ? 1 - this.mElapsed : this.mElapsed);
+    const t = this.mEase(this.mIsYoyoBack ? 1 - this.mElapsed : this.mElapsed);
 
-    for (let f in this.mValues) {
-      let start = /** @type {number} */ (this.mValuesStart[f]);
-      let end = /** @type {number|Array} */ (this.mValues[f]);
+    for (const f in this.mValues) {
+      const start = /** @type {number} */ (this.mValuesStart[f]);
+      const end = /** @type {number|Array} */ (this.mValues[f]);
 
       if (this.mPlugins !== null && this.mPlugins.hasOwnProperty(f)) {
-        let toLerp = Array.isArray(end) ? end : [start, end];
+        const toLerp = Array.isArray(end) ? end : [start, end];
         this.gameObject[f] = Interpolation.linear(toLerp, t, this.mPlugins[f]);
       } else if (Array.isArray(end)) {
         this.gameObject[f] = this.mInterpolation(end, t);
@@ -612,7 +637,7 @@ export class Tween extends Component {
    * @inheritDoc
    */
   onUpdate() {
-    let t = Black.time.now;
+    const t = Black.time.now;
 
     if (t < this.mStartTime || this.mIsPlaying === false || this.mIsPaused === true)
       return;
@@ -624,14 +649,14 @@ export class Tween extends Component {
     if (this.mElapsed > 1)
       this.mElapsed = 1;
 
-    let tt = this.mEase(this.mIsYoyoBack ? 1 - this.mElapsed : this.mElapsed);
+    const tt = this.mEase(this.mIsYoyoBack ? 1 - this.mElapsed : this.mElapsed);
 
-    for (let f in this.mValues) {
-      let start = /** @type {number} */ (this.mValuesStart[f]);
-      let end = /** @type {number|Array} */ (this.mValues[f]);
+    for (const f in this.mValues) {
+      const start = /** @type {number} */ (this.mValuesStart[f]);
+      const end = /** @type {number|Array} */ (this.mValues[f]);
 
       if (this.mPlugins !== null && this.mPlugins.hasOwnProperty(f)) {
-        let toLerp = Array.isArray(end) ? end : [start, end];
+        const toLerp = Array.isArray(end) ? end : [start, end];
         this.gameObject[f] = Interpolation.linear(toLerp, tt, this.mPlugins[f]);
       } else if (Array.isArray(end)) {
         this.gameObject[f] = this.mInterpolation(end, tt);
@@ -641,7 +666,7 @@ export class Tween extends Component {
     }
 
     /**
-     * Posted on every tween update. 
+     * Posted on every tween update.
      * Note: tween can update object values inside `onRender` method without posting `black-engine~Tween#update` message.
      * @event Tween#update
      */
@@ -672,7 +697,7 @@ export class Tween extends Component {
         if (this.mRemoveOnComplete) {
           this.removeFromParent();
         } else {
-          for (let f in this.mValues) {
+          for (const f in this.mValues) {
             this.mValuesStart[f] = this.mValues[f];
           }
 
@@ -692,7 +717,7 @@ export class Tween extends Component {
        */
       this.post('start', this.gameObject);
 
-      for (let f in this.mValues) {
+      for (const f in this.mValues) {
         if (!this.mInitiated && Array.isArray(this.mValues[f])) {
           this.mValues[f] = [this.gameObject[f]].concat(this.mValues[f]);
         }

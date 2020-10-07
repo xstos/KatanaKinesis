@@ -7,6 +7,10 @@ import { FloatScatterBase } from "./FloatScatterBase";
  * @extends black-engine~FloatScatterBase
  */
 export class FloatScatter extends FloatScatterBase {
+	public min: any;
+	public max: any;
+	public ease: any;
+
   /**
    * Creates new FloatScatter instance.
    *

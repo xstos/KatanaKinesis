@@ -9,6 +9,10 @@ import { Vector } from "../geom/Vector";
  * @extends black-engine~VectorScatterBase
  */
 export class VectorCurveScatter extends VectorScatterBase {
+	public mCurve: any;
+	public mPointsCache: any;
+	public mCache: any;
+
   /**
    * Creates new VectorCurveScatter instance.
    *

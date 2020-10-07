@@ -14,6 +14,19 @@ import { Black } from "../Black";
  * @extends black-engine~MessageDispatcher
  */
 export class Viewport extends MessageDispatcher {
+	public mContainerElement: any;
+	public mViewportElement: any;
+	public mSize: any;
+	public isTransparent: any;
+	public backgroundColor: any;
+	public mChecksLeftSeconds: any;
+	public mOrientation: any;
+	public mOrientationLock: any;
+	public mRotation: any;
+	public mIsPrimary: any;
+	public mReflect: any;
+	public mBoundResize: any;
+
   /**
    * constructor
    * @param {HTMLElement|null} containerElement The native HTML element.
@@ -123,6 +136,7 @@ export class Viewport extends MessageDispatcher {
   }
 
   isPrimary() {
+    // @ts-ignore
     const orientation = screen.msOrientation || (screen.orientation || screen.mozOrientation || {}).type;
 
     if (orientation === 'landscape-primary' || orientation === 'portrait-primary')

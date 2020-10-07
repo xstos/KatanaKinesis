@@ -3,6 +3,8 @@
  * @cat utils
  */
 export class MapMap {
+	public mMap: any;
+
   constructor() {
     this.mMap = new Map();
   }

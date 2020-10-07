@@ -9,6 +9,30 @@ import { FillRule } from "../display/FillRule";
  * @cat parsers
  */
 export class BVGStyle {
+	public L: any;
+	public l: any;
+	public w: any;
+	public F: any;
+	public f: any;
+	public r: any;
+	public c: any;
+	public j: any;
+	public m: any;
+	public a: any;
+	public d: any;
+	public needsFill: any;
+	public needsStroke: any;
+	public fillColor: any;
+	public fillAlpha: any;
+	public lineColor: any;
+	public lineAlpha: any;
+	public lineWidth: any;
+	public lineCap: any;
+	public lineJoin: any;
+	public miterLimit: any;
+	public fillRule: any;
+	public lineDash: any;
+
   /**
    * Creates new instance of BVGStyle.
    */

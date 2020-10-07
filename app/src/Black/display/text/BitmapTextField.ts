@@ -13,6 +13,16 @@ import { TextMetricsEx } from "./TextMetrics";
  * @extends black-engine~DisplayObject
  */
 export class BitmapTextField extends DisplayObject {
+	public mData: any;
+	public mText: any;
+	public mAutoSize: any;
+	public mMultiline: any;
+	public mLineHeight: any;
+	public mBounds: any;
+	public mTextBounds: any;
+	public mFieldWidth: any;
+	public mFieldHeight: any;
+
   /**
    * Create new instance of BitmapTextField.
    *

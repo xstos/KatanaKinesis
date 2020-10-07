@@ -5,6 +5,9 @@
  * @cat display
  */
 export class GraphicsGradient {
+	public stops: any;
+	public native: any;
+
   /**
    * Creates new instance of GraphicsGradient
    */

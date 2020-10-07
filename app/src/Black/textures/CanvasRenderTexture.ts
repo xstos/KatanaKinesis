@@ -8,6 +8,8 @@ import { RenderTargetCanvas } from "../drivers/canvas/RenderTargetCanvas";
  * @extends black-engine~Texture
  */
 export class CanvasRenderTexture extends Texture {
+	public renderTarget: any;
+
   /**
    * Creates new CanvasRenderTexture instance with given size and scale.
    *

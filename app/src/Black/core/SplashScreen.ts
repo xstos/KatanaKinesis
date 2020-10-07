@@ -7,6 +7,10 @@ import { Message } from "../messages/Message";
  * @cat core
  */
 export class SplashScreen extends MessageDispatcher {
+	public mDuration: any;
+	public mSvgLogo: any;
+	public mSvgText: any;
+
   constructor(duration = 4200) {
     super(false);
 

@@ -16,125 +16,143 @@ import { Camera } from "../display/Camera";
  * objects will not receive `pointerMove` or `pointerUp` messages. Target locked
  * object will receive `pointerUp` message even if pointer is outside of its
  * bounds.
- * 
+ *
  * Every object in the display list should be `touchable` in order to receive input messages.
  *
  * @cat input
  * @fires Input#pointerMove
  * @fires Input#pointerDown
  * @fires Input#pointerUp
- * 
+ *
  * @fires GameObject#pointerMove
  * @fires GameObject#pointerDown
  * @fires GameObject#pointerUp
- * 
+ *
  * @extends black-engine~System
  */
 export class Input extends System {
+	public mViewportPosition: any;
+	public mPointerPosition: any;
+	public mStagePosition: any;
+	public mDom: any;
+	public mEventList: any;
+	public mKeyEventList: any;
+	public mBoundListeners: any;
+	public mPointerQueue: any;
+	public mKeyQueue: any;
+	public mPressedKeys: any;
+	public mIsPointerDown: any;
+	public mInputListeners: any;
+	public mTarget: any;
+	public mTargetComponent: any;
+	public mLockedTarget: any;
+	public mLastInTargetComponent: any;
+
   /**
    * Private constructor.
    */
   constructor() {
     super();
 
+    // @ts-ignore
     Debug.assert(this.constructor.instance == null, 'Only single instance is allowed');
 
     Black.input = this;
 
-    /** 
-     * @private 
-     * @type {black-engine~Vector} 
+    /**
+     * @private
+     * @type {black-engine~Vector}
      */
     this.mViewportPosition = new Vector();
 
-    /** 
-     * @private 
-     * @type {black-engine~Vector} 
+    /**
+     * @private
+     * @type {black-engine~Vector}
      */
     this.mPointerPosition = new Vector();
 
-    /** 
-     * @private 
-     * @type {black-engine~Vector} 
+    /**
+     * @private
+     * @type {black-engine~Vector}
      */
     this.mStagePosition = new Vector();
 
-    /** 
-     * @private 
-     * @type {Element|null} 
+    /**
+     * @private
+     * @type {Element|null}
      */
     this.mDom = null;
 
-    /** 
-     * @private 
-     * @type {Array<string>} 
+    /**
+     * @private
+     * @type {Array<string>}
      */
     this.mEventList = null;
 
-    /** 
-     * @private 
-     * @type {Array<string>} 
+    /**
+     * @private
+     * @type {Array<string>}
      */
     this.mKeyEventList = null;
 
-    /** 
-     * @private 
-     * @type {Array<{name: String, listener: Function}>} 
+    /**
+     * @private
+     * @type {Array<{name: String, listener: Function}>}
      */
     this.mBoundListeners = [];
 
-    /** 
-     * @private 
-     * @type {Array<{e: Event, x: number, y:number}>} 
+    /**
+     * @private
+     * @type {Array<{e: Event, x: number, y:number}>}
      */
     this.mPointerQueue = [];
 
-    /** 
-     * @private 
-     * @type {Array<KeyboardEvent>} 
+    /**
+     * @private
+     * @type {Array<KeyboardEvent>}
      */
     this.mKeyQueue = [];
 
-    /** 
-     * @private 
-     * @type {Array<number>} 
+    /**
+     * @private
+     * @type {Array<number>}
      */
     this.mPressedKeys = [];
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mIsPointerDown = false;
 
     // NOTE: we need guarantee that keys are not going to change theirs order when iterating.
-    /** 
-     * @private 
-     * @type {Map} 
+    /**
+     * @private
+     * @type {Map}
      */
     this.mInputListeners = new Map();
 
-    /** 
-     * @private 
-     * @type {black-engine~GameObject} 
+    /**
+     * @private
+     * @type {black-engine~GameObject}
      */
     this.mTarget = null;
 
-    /** 
-     * @private 
-     * @type {black-engine~Component} 
+    /**
+     * @private
+     * @type {black-engine~Component}
      */
     this.mTargetComponent = null;
 
-    /** 
-     * @private 
-     * @type {black-engine~GameObject} 
+    /**
+     * @private
+     * @type {black-engine~GameObject}
      */
     this.mLockedTarget = null;
 
-    /** 
-     * @private 
-     * @type {black-engine~Component} 
+    /**
+     * @private
+     * @type {black-engine~Component}
      */
     this.mLastInTargetComponent = null;
 
@@ -174,10 +192,10 @@ export class Input extends System {
     for (let i = 0; i < 3; i++)
       this.mDom.addEventListener(this.mEventList[i], e => this.__onPointerEvent(e), false);
 
-    let addBoundsListener = (target, name, action) => {
+    const addBoundsListener = (target, name, action) => {
       const listener = e => action.call(this, e);
 
-      this.mBoundListeners.push({ name: name, listener: listener });
+      this.mBoundListeners.push({ name, listener });
       target.addEventListener(name, listener);
     };
 
@@ -266,7 +284,7 @@ export class Input extends System {
     else
       p = this.__getPointerPos(this.mDom, e);
 
-    this.mPointerQueue.push({ e: e, x: p.x, y: p.y });
+    this.mPointerQueue.push({ e, x: p.x, y: p.y });
   }
 
   /**
@@ -277,12 +295,12 @@ export class Input extends System {
    * @returns {black-engine~Vector}
    */
   __getPointerPos(canvas, evt) {
-    let rect = canvas.getBoundingClientRect();
+    const rect = canvas.getBoundingClientRect();
 
     const rotation = Black.engine.viewport.rotation;
 
-    let scaleX = (rotation === 0 ? canvas.clientWidth : canvas.clientHeight) / rect.width;
-    let scaleY = (rotation === 0 ? canvas.clientHeight : canvas.clientWidth) / rect.height;
+    const scaleX = (rotation === 0 ? canvas.clientWidth : canvas.clientHeight) / rect.width;
+    const scaleY = (rotation === 0 ? canvas.clientHeight : canvas.clientWidth) / rect.height;
 
     return new Vector((evt.clientX - rect.left) * scaleX, (evt.clientY - rect.top) * scaleY);
   }
@@ -295,16 +313,16 @@ export class Input extends System {
    * @returns {black-engine~Vector}
    */
   __getTouchPos(canvas, evt) {
-    let rect = canvas.getBoundingClientRect();
+    const rect = canvas.getBoundingClientRect();
 
     /** @type {Touch} */
-    let touch = evt.changedTouches[0]; // ios? what about android?
-    let x = touch.clientX;
-    let y = touch.clientY;
+    const touch = evt.changedTouches[0]; // ios? what about android?
+    const x = touch.clientX;
+    const y = touch.clientY;
 
     const rotation = Black.engine.viewport.rotation;
-    let scaleX = (rotation === 0 ? canvas.clientWidth : canvas.clientHeight) / rect.width;
-    let scaleY = (rotation === 0 ? canvas.clientHeight : canvas.clientWidth) / rect.height;
+    const scaleX = (rotation === 0 ? canvas.clientWidth : canvas.clientHeight) / rect.width;
+    const scaleY = (rotation === 0 ? canvas.clientHeight : canvas.clientWidth) / rect.height;
 
     return new Vector((x - rect.left) * scaleX, (y - rect.top) * scaleY);
   }
@@ -319,7 +337,7 @@ export class Input extends System {
     const size = Black.engine.viewport.size;
     const rotation = Black.engine.viewport.rotation;
 
-    let stage = Black.stage;
+    const stage = Black.stage;
 
     while (this.mPointerQueue.length > 0) {
       const nativeEvent = this.mPointerQueue.shift();
@@ -346,10 +364,10 @@ export class Input extends System {
 
       this.mStagePosition.copyFrom(this.mPointerPosition);
 
-      let inv = stage.worldTransformationInverted;
+      const inv = stage.worldTransformationInverted;
       inv.transformVector(this.mStagePosition, this.mStagePosition);
 
-      let eventType = mInputEventsLookup[this.mEventList.indexOf(nativeEvent.e.type)];
+      const eventType = mInputEventsLookup[this.mEventList.indexOf(nativeEvent.e.type)];
 
       this.__findTarget(this.mPointerPosition);
       this.__processNativeEvent(nativeEvent, this.mPointerPosition, eventType);
@@ -362,7 +380,7 @@ export class Input extends System {
    * @param {black-engine~Vector} pos
    */
   __findTarget(pos) {
-    let obj = Black.stage.hitTest(pos);
+    const obj = Black.stage.hitTest(pos);
 
     if (obj === null) {
       this.mTarget = null;
@@ -408,7 +426,7 @@ export class Input extends System {
       return;
     }
 
-    let sameTarget = this.mTarget === this.mLockedTarget;
+    const sameTarget = this.mTarget === this.mLockedTarget;
 
     if (this.mLockedTarget === null) {
       if (this.mTarget !== null)
@@ -430,10 +448,10 @@ export class Input extends System {
    */
   __updateKeyboard() {
     while (this.mKeyQueue.length > 0) {
-      let nativeEvent = this.mKeyQueue.shift();
+      const nativeEvent = this.mKeyQueue.shift();
 
-      let ix = this.mKeyEventList.indexOf(nativeEvent.type);
-      let pIx = this.mPressedKeys.indexOf(nativeEvent.keyCode);
+      const ix = this.mKeyEventList.indexOf(nativeEvent.type);
+      const pIx = this.mPressedKeys.indexOf(nativeEvent.keyCode);
       let fnName = mKeyEventsLookup[ix];
 
       if (fnName === 'keyUp' && pIx !== -1)
@@ -455,7 +473,7 @@ export class Input extends System {
     super.dispose();
 
     while (this.mBoundListeners.length > 0) {
-      let keyValue = this.mBoundListeners.pop();
+      const keyValue = this.mBoundListeners.pop();
       document.removeEventListener(keyValue.name, keyValue.listener);
     }
 
@@ -527,7 +545,7 @@ export class Input extends System {
 
   /**
    * Returns pointer position relative to the stage.
-   * 
+   *
    * @returns {black-engine~Vector}
    */
   get stagePosition() {
@@ -669,6 +687,12 @@ const mTouchEventList = ['touchmove', 'touchstart', 'touchend', 'touchenter', 't
  * @cat input
  */
 class PointerInfo {
+	public mActiveObject: any;
+	public mX: any;
+	public mY: any;
+	public mButton: any;
+	public mDelta: any;
+
   /**
    * Creates new PointerInfo instance. For internal use only.
    *
@@ -679,33 +703,33 @@ class PointerInfo {
    */
   constructor(activeObject, x, y, button, delta = 0) {
 
-    /** 
-     * @private 
-     * @type {black-engine~GameObject} 
+    /**
+     * @private
+     * @type {black-engine~GameObject}
      */
     this.mActiveObject = activeObject;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mX = x;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mY = y;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mButton = button;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mDelta = delta;
   }

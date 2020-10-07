@@ -7,6 +7,11 @@ import { Matrix } from "../geom/Matrix";
  * @cat drivers
  */
 export class RenderSession {
+	public parentRenderers: any;
+	public endPassParentRenderers: any;
+	public isBackBufferActive: any;
+	public customTransform: any;
+
   /**
    * Creates new instance of RenderSession.
    */

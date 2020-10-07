@@ -1,3 +1,4 @@
+/* tslint:disable:max-line-length no-empty prefer-for-of */
 import { Black } from "../Black";
 import { BlendMode } from "./BlendMode";
 import { Renderer } from "./Renderer";
@@ -12,6 +13,22 @@ import { Matrix } from "../geom/Matrix";
  * @cat drivers
  */
 export class VideoNullDriver {
+	public mContainerElement: any;
+	public mClientWidth: any;
+	public mClientHeight: any;
+	public mTransform: any;
+	public mIdentityMatrix: any;
+	public mActiveSession: any;
+	public mSessions: any;
+	public mLastRenderTexture: any;
+	public mSnapToPixels: any;
+	public mDevicePixelRatio: any;
+	public mGlobalBlendMode: any;
+	public mGlobalAlpha: any;
+	public mStageRenderer: any;
+	public mRendererMap: any;
+  static sessionPool: any;
+
   /**
    * Creates new instance of VideoNullDriver.
    *
@@ -21,87 +38,87 @@ export class VideoNullDriver {
    */
   constructor(containerElement, width, height) {
 
-    /** 
-     * @protected 
-     * @type {HTMLElement} 
+    /**
+     * @protected
+     * @type {HTMLElement}
      */
     this.mContainerElement = containerElement;
 
-    /** 
-     * @protected 
-     * @type {number} 
+    /**
+     * @protected
+     * @type {number}
      */
     this.mClientWidth = width;
 
-    /** 
-     * @protected 
-     * @type {number} 
+    /**
+     * @protected
+     * @type {number}
      */
     this.mClientHeight = height;
 
-    /** 
-     * @protected 
-     * @type {black-engine~Matrix} Actual object - do not change 
+    /**
+     * @protected
+     * @type {black-engine~Matrix} Actual object - do not change
      */
     this.mTransform = new Matrix();
 
-    /** 
-     * @protected 
-     * @type {black-engine~Matrix} 
+    /**
+     * @protected
+     * @type {black-engine~Matrix}
      */
     this.mIdentityMatrix = new Matrix();
 
-    /** 
-     * @protected 
-     * @type {black-engine~RenderSession} 
+    /**
+     * @protected
+     * @type {black-engine~RenderSession}
      */
     this.mActiveSession = new RenderSession();
 
-    /** 
-     * @protected 
-     * @type {Array<black-engine~RenderSession>} 
+    /**
+     * @protected
+     * @type {Array<black-engine~RenderSession>}
      */
     this.mSessions = [];
 
-    /** 
-     * @protected 
-     * @type {*} 
+    /**
+     * @protected
+     * @type {*}
      */
     this.mLastRenderTexture = null;
 
-    /** 
-     * @protected 
-     * @type {boolean} 
+    /**
+     * @protected
+     * @type {boolean}
      */
     this.mSnapToPixels = false;
 
-    /** 
-     * @protected 
-     * @type {number} 
+    /**
+     * @protected
+     * @type {number}
      */
     this.mDevicePixelRatio = Black.engine.useHiDPR === true ? Black.device.getDevicePixelRatio() : 1;
 
-    /** 
-     * @protected 
-     * @type {black-engine~BlendMode|null} 
+    /**
+     * @protected
+     * @type {black-engine~BlendMode|null}
      */
     this.mGlobalBlendMode = BlendMode.AUTO;
 
-    /** 
-     * @protected 
-     * @type {number} 
+    /**
+     * @protected
+     * @type {number}
      */
     this.mGlobalAlpha = 1;
 
-    /** 
-     * @protected 
-     * @type {black-engine~Renderer} 
+    /**
+     * @protected
+     * @type {black-engine~Renderer}
      */
     this.mStageRenderer = new Renderer();
 
-    /** 
-     * @protected 
-     * @type {Object.<string, function(new: black-engine~Renderer)>} 
+    /**
+     * @protected
+     * @type {Object.<string, function(new: black-engine~Renderer)>}
      */
     this.mRendererMap = {};
 
@@ -137,7 +154,7 @@ export class VideoNullDriver {
    * @returns {black-engine~RenderSession}
    */
   __saveSession() {
-    let session = VideoNullDriver.sessionPool.get();
+    const session = VideoNullDriver.sessionPool.get();
     session.reset();
 
     this.mSessions.push(session);
@@ -168,14 +185,14 @@ export class VideoNullDriver {
     if (current === null)
       return;
 
-    let parents = [];
+    const parents = [];
     for (current = current.parent; current !== null; current = current.parent)
       parents.splice(0, 0, current);
 
     for (let i = 0; i < parents.length; i++) {
       current = parents[i];
 
-      let renderer = current.mRenderer;
+      const renderer = current.mRenderer;
 
       if (renderer == null)
         continue;
@@ -219,8 +236,8 @@ export class VideoNullDriver {
   __onResize(msg, rect) {
     Renderer.__dirty = true;
 
-    let w = this.mContainerElement.clientWidth;
-    let h = this.mContainerElement.clientHeight;
+    const w = this.mContainerElement.clientWidth;
+    const h = this.mContainerElement.clientHeight;
 
     this.mClientWidth = w;
     this.mClientHeight = h;
@@ -275,7 +292,7 @@ export class VideoNullDriver {
 
   /**
    * Indicates if transform should be snapped to pixels.
-   * @param {boolean} value 
+   * @param {boolean} value
    * @returns {void}
    */
   setSnapToPixels(value) {
@@ -323,7 +340,7 @@ export class VideoNullDriver {
    *
    * @public
    * @param {black-engine~Texture} texture Instance of the Texture to draw.
-   * 
+   *
    */
   drawTexture(texture) {
   }
@@ -355,7 +372,7 @@ export class VideoNullDriver {
     VideoNullDriver.sessionPool.releaseAll();
   }
 
-  /** 
+  /**
    * Returns current rendering context or null.
    * @returns {*}
    */
@@ -365,7 +382,7 @@ export class VideoNullDriver {
 
   /**
    * Returns device pixel ratio or 1 in case high DPR support is disabled.
-   * 
+   *
    * @returns {number}
    */
   get renderScaleFactor() {

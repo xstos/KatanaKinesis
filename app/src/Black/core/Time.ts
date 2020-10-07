@@ -8,6 +8,14 @@ import { Debug } from "./Debug";
  * @static
  */
 export class Time {
+	public mTime: any;
+	public mActualTime: any;
+	public mDeltaTimeMs: any;
+	public mDeltaTime: any;
+	public mScale: any;
+	public mAlphaTime: any;
+	public mRenderOffset: any;
+
   constructor() {
     /** 
      * @private

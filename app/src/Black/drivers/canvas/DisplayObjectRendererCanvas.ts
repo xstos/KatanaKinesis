@@ -13,6 +13,14 @@ import { DirtyFlag } from "../../core/DirtyFlag";
  * @cat drivers.canvas
  */
 export class DisplayObjectRendererCanvas extends Renderer {
+	public mCacheAsBitmapDirty: any;
+	public mCacheAsBitmapMatrixCache: any;
+	public mCacheTexture: any;
+	public mCacheBounds: any;
+	public mIsClipped: any;
+	public mIsCached: any;
+	public mBakeInvertedMatrix: any;
+
   constructor() {
     super();
 

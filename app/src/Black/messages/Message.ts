@@ -7,6 +7,14 @@ import { ObjectPool } from "./../utils/ObjectPool";
  * @cat core
  */
 export class Message {
+	public sender: any;
+	public name: any;
+	public target: any;
+	public origin: any;
+	public canceled: any;
+	public type: any;
+	public path: any;
+
   constructor() {
     /** @type {black-engine~MessageDispatcher} The `MessageDispatcher` object, which posted this message. */
     this.sender = null;

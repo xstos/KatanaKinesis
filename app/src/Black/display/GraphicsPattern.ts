@@ -5,6 +5,10 @@
  * @cat display
  */
 export class GraphicsPattern {
+	public image: any;
+	public repetition: any;
+	public native: any;
+
   /**
    * Creates new instance of GraphicsPattern
    */

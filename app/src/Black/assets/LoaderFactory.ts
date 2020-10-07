@@ -6,6 +6,8 @@ import { LoaderType } from "./LoaderType";
  * @cat assets
  */
 export class LoaderFactory {
+	public mAssetManager: any;
+
   /**
    * 
    * @param {black-engine~AssetManager} assetManager 

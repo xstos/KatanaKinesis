@@ -10,6 +10,11 @@ import { Debug } from "../core/Debug";
  * @extends black-engine~Component
  */
 export class Collider extends Component {
+	public mChanged: any;
+	public mCenter: any;
+	public mMin: any;
+	public mMax: any;
+
   /**
    * Creates new instance for Collider.
    *

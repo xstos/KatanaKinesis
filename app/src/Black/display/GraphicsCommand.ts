@@ -7,6 +7,9 @@ import { GraphicsCommandType } from "./GraphicsCommandType";
  * @cat display
  */
 export class GraphicsCommand {
+	public type: any;
+	public data: any;
+
   /**
    * Creates new instance of GraphicsCommand
    *

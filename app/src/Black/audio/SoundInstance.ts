@@ -17,6 +17,23 @@ let ID = 0;
  * @extends {black-engine~MessageDispatcher}
  */
 export class SoundInstance extends MessageDispatcher {
+	public mId: any;
+	public mSound: any;
+	public mState: any;
+	public mChannel: any;
+	public mVolume: any;
+	public mLoop: any;
+	public mStartTime: any;
+	public mPausePosition: any;
+	public mStopPosition: any;
+	public mSrc: any;
+	public mGainNode: any;
+	public mFirstNode: any;
+	public mPlayNode: any;
+	public mSpatialPanner: any;
+	public mStereoPanner: any;
+	public mAnalyser: any;
+
   /**
    * Creates instance
    * @param {black-engine~SoundClip} sound `SoundClip` instance taken from `AssetManager`.

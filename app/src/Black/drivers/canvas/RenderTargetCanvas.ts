@@ -7,6 +7,9 @@ import { RenderTarget } from "../RenderTarget";
  * @cat drivers.canvas
  */
 export class RenderTargetCanvas extends RenderTarget {
+	public mCanvas: any;
+	public mCtx: any;
+
   /**
    * Creates new instance of RenderTargetCanvas.
    *

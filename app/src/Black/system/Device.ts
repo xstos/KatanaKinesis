@@ -4,6 +4,8 @@
  * @cat system
  */
 export class Device {
+	public mPixelRatioCache: any;
+
   constructor() {
     /**
      * @type {number|null}
@@ -14,11 +16,12 @@ export class Device {
 
   /**
    * Returns current OS name.
-   * 
+   *
    * @return {string}
    */
   get os() {
-    let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    // @ts-ignore
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
     if (/windows phone/i.test(userAgent))
       return 'Windows Phone';
@@ -38,7 +41,7 @@ export class Device {
    * @return {boolean}
    */
   get isTouch() {
-    let hasEvent = 'ontouchstart' in window;
+    const hasEvent = 'ontouchstart' in window;
     if (hasEvent)
       return true;
 
@@ -75,7 +78,8 @@ export class Device {
    * @return {boolean}
    */
   get webAudioSupported() {
-    return window['AudioContext'] != null || window['webkitAudioContext'] != null;
+    // @ts-ignore
+    return window.AudioContext != null || window.webkitAudioContext != null;
   }
 
   /**
@@ -85,8 +89,15 @@ export class Device {
    * @return {number} Description
    */
   getDevicePixelRatio() {
-    if (window.screen.systemXDPI !== undefined && window.screen.logicalXDPI !== undefined && window.screen.systemXDPI > window.screen.logicalXDPI)
-      return window.screen.systemXDPI / window.screen.logicalXDPI;
+
+    // @ts-ignore
+    const systemXDPI = window.screen.systemXDPI;
+    // @ts-ignore
+    const logicalXDPI = window.screen.logicalXDPI;
+    if (systemXDPI !== undefined && logicalXDPI !== undefined && systemXDPI > logicalXDPI)
+      { // @ts-ignore
+        return systemXDPI / logicalXDPI;
+      }
     else if (window.devicePixelRatio !== undefined)
       return window.devicePixelRatio;
 

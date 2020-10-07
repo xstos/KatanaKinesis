@@ -11,6 +11,14 @@ import { Black } from "./../Black";
  * @extends {black-engine~System}
  */
 export class MasterAudio extends System {
+	public mContext: any;
+	public mCurrentListener: any;
+	public mChannels: any;
+	public mMasterChannel: any;
+	public mIsPendingResume: any;
+	public mPendingResume: any;
+	public mResumeTimeout: any;
+
   /**
    * Singleton
    */

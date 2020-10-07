@@ -13,6 +13,12 @@ import { LoaderType } from "./LoaderType";
  * @extends black-engine~Asset
  */
 export class BitmapFontAsset extends Asset {
+	public mImageUrl: any;
+	public mXmlUrl: any;
+	public mScale: any;
+	public mImageLoader: any;
+	public mXHR: any;
+
   /**
    * Creates new AtlasTextureAsset instance.
    *
@@ -135,6 +141,14 @@ export class BitmapFontAsset extends Asset {
 }
 
 export class BitmapFontData {
+	public texture: any;
+	public xml: any;
+	public name: any;
+	public size: any;
+	public lineHeight: any;
+	public chars: any;
+	public baseline: any;
+
   constructor() {
     /** @type {Texture} */
     this.texture = null;
@@ -160,6 +174,14 @@ export class BitmapFontData {
 }
 
 export class BitmapFontCharData {
+	public texture: any;
+	public xOffset: any;
+	public yOffset: any;
+	public width: any;
+	public height: any;
+	public xAdvance: any;
+	public kerning: any;
+
   constructor() {
     /** @type {Texture} */
     this.texture = null;

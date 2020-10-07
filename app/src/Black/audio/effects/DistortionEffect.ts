@@ -9,6 +9,10 @@ import { MathEx } from "../../math/MathEx";
  * @extends {black-engine~SoundEffect}
  */
 export class DistortionEffect extends SoundEffect {
+	public mWaveShaperNode: any;
+	public mSamples: any;
+	public mCurve: any;
+	public mValue: any;
 
   /**
    * Creates new instance of DistortionEffect

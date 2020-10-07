@@ -8,6 +8,11 @@ import { Message } from "../../messages/Message";
  * @extends black-engine~MessageDispatcher
  */
 export class AssetLoader extends MessageDispatcher {
+	public mUrl: any;
+	public mData: any;
+	public mIsLoaded: any;
+	public mNumOwners: any;
+
   /**
    * Creates new AssetLoader instance.
    * 

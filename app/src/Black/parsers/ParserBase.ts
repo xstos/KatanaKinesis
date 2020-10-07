@@ -1,4 +1,6 @@
 export class ParserBase {
+	public data: any;
+
   constructor() {
     /** 
      * Input data to parse

@@ -9,6 +9,10 @@ import { Texture } from "../textures/Texture";
  * @cat drivers
  */
 export class BitmapTextRenderer extends Renderer {
+	public mCanvas: any;
+	public mContext: any;
+	public texture: any;
+
   /**
    * Creates new instance of BitmapTextRenderer.
    */

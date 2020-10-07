@@ -7,6 +7,10 @@ import { AssetLoader } from "./AssetLoader";
  * @extends black-engine~AssetLoader
  */
 export class XHRAssetLoader extends AssetLoader {
+	public mRequest: any;
+	public mimeType: any;
+	public responseType: any;
+
   constructor(url) {
     super(url);
 

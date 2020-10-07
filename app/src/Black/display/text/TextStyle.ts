@@ -14,6 +14,23 @@ let defaultStyle = null;
  * @cat display.text
  */
 export class TextStyle {
+	public name: any;
+	public family: any;
+	public size: any;
+	public color: any;
+	public alpha: any;
+	public style: any;
+	public weight: any;
+	public strokeThickness: any;
+	public strokeColor: any;
+	public strokeAlpha: any;
+	public dropShadow: any;
+	public shadowDistanceX: any;
+	public shadowDistanceY: any;
+	public shadowColor: any;
+	public shadowAlpha: any;
+	public shadowBlur: any;
+
   /**
    * Creates instance of TextStyle.
    * @param  {string=} family                                             Font name

@@ -8,6 +8,8 @@ import { MathEx } from "../../math/MathEx";
  * @extends black-engine~Modifier
  */
 export class Oriented extends Modifier {
+	public angleShift: any;
+
   /**
    * Creates new instance of oriented modifier.
    */

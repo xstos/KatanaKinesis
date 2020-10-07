@@ -5,6 +5,12 @@
  * @cat display
  */
 export class GraphicsPath {
+	public bounds: any;
+	public points: any;
+	public maxLineWidth: any;
+	public lastLineWidth: any;
+	public lineMul: any;
+
   /**
    * Creates new instance of GraphicsPath
    */

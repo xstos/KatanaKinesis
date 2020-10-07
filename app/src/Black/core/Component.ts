@@ -14,6 +14,11 @@ let ID = 0;
  * @extends black-engine~MessageDispatcher
  */
 export class Component extends MessageDispatcher {
+	public mId: any;
+	public mGameObject: any;
+	public mAdded: any;
+	public enabled: any;
+
   /**
    * Creates new Component instance.
    */

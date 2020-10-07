@@ -1,3 +1,4 @@
+/* tslint:disable:no-shadowed-variable only-arrow-functions variable-name */
 import { MathEx } from "../math/MathEx";
 
 /**
@@ -7,6 +8,7 @@ import { MathEx } from "../math/MathEx";
  * @static
  */
 export class Interpolation {
+  static __factorial: any;
   /**
    * Linear interpolation.
    *
@@ -16,9 +18,9 @@ export class Interpolation {
    * @return {number}  The interpolated value
    */
   static linear(v, k, lerpFunction) {
-    let m = v.length - 1;
-    let f = m * k;
-    let i = Math.floor(f);
+    const m = v.length - 1;
+    const f = m * k;
+    const i = Math.floor(f);
 
     lerpFunction = lerpFunction || MathEx.lerp;
 
@@ -40,11 +42,11 @@ export class Interpolation {
    */
   static bezier(v, k) {
     let b = 0;
-    let n = v.length;
-    let pow = Math.pow;
+    const n = v.length;
+    const pow = Math.pow;
     // Bernstein basis polynomials
-    let bn = (n, i) => {
-      let fc = Interpolation.__factorial;
+    const bn = (n, i) => {
+      const fc = Interpolation.__factorial;
       return fc(n) / fc(i) / fc(n - i);
     };
 
@@ -62,15 +64,15 @@ export class Interpolation {
    * @return {number}  The interpolated value
    */
   static catmullRom(v, k) {
-    let m = v.length - 1;
+    const m = v.length - 1;
     let f = m * k;
     let i = Math.floor(f);
 
-    let fn = (p0, p1, p2, p3, t) => {
-      let v0 = (p2 - p0) * 0.5;
-      let v1 = (p3 - p1) * 0.5;
-      let t2 = t * t;
-      let t3 = t * t2;
+    const fn = (p0, p1, p2, p3, t) => {
+      const v0 = (p2 - p0) * 0.5;
+      const v1 = (p3 - p1) * 0.5;
+      const t2 = t * t;
+      const t3 = t * t2;
 
       return ((p1 - p2) * 2 + v0 + v1) * t3 + ((p2 - p1) * 3 - 2 * v0 - v1) * t2 + v0 * t + p1;
     };
@@ -97,7 +99,7 @@ export class Interpolation {
  * @return {number}
  */
 Interpolation.__factorial = (function() {
-  let a = [1];
+  const a = [1];
 
   return function(n) {
     if (a[n])

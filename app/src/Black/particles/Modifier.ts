@@ -4,6 +4,10 @@
  * @cat particles
  */
 export class Modifier {
+	public mIsInitializer: any;
+	public scatter: any;
+	public isActive: any;
+
   /**
    * Creates new instance.
    *

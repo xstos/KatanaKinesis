@@ -14,6 +14,11 @@ import { LoaderType } from "./LoaderType";
  * @extends black-engine~Asset
  */
 export class SoundAtlasAsset extends Asset {
+	public mSoundUrl: any;
+	public mDataUrl: any;
+	public mAudioXHR: any;
+	public mDataXHR: any;
+
   /**
    * Creates new SoundAtlasAsset instance.
    *

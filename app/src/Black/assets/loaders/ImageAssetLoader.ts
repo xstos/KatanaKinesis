@@ -9,6 +9,8 @@ var alternativeUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIA
  * @extends black-engine~AssetLoader
  */
 export class ImageAssetLoader extends AssetLoader {
+	public mImageElement: any;
+
   /**
    * Creates new ImageAssetLoader instance.
    * @param {string} url 

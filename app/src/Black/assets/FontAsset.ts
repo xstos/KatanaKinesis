@@ -12,6 +12,9 @@ import { LoaderType } from "./LoaderType";
  * @extends black-engine~Asset
  */
 export class FontAsset extends Asset {
+	public mUrl: any;
+	public mIsLocal: any;
+
   /**
    * Creates new instance of FontAsset.
    *
@@ -51,6 +54,6 @@ export class FontAsset extends Asset {
    * @inheritDoc
    */
   onAllLoaded() {
-    super.ready();
+    super.ready(undefined);
   }
 }

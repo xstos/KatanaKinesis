@@ -10,6 +10,10 @@ import { EmitterSortOrder } from "../../particles/EmitterSortOrder";
  * @cat drivers.canvas
  */
 export class EmitterRendererCanvas extends Renderer {
+	public isLocal: any;
+	public __tmpLocal: any;
+	public __tmpWorld: any;
+
   /**
    * Creates new instance of EmitterRendererCanvas.
    */

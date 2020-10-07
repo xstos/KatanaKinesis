@@ -12,6 +12,13 @@ import { Matrix } from "../../geom/Matrix";
  */
 
 export class SpriteRendererCanvas extends Renderer{
+	public pattern: any;
+	public patternTexture: any;
+	public sliceTextureCache: any;
+	public sizeWidthCache: any;
+	public sizeHeightCache: any;
+	public textureCache: any;
+
   constructor() {
     super();
 

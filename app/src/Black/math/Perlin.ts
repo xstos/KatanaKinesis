@@ -1,8 +1,13 @@
+/* tslint:disable:variable-name no-bitwise */
 export class Perlin {
+	public mRepeat: any;
+	public mPerm: any;
+  static __permutation: any;
+
   constructor(repeat = 0) {
     this.mRepeat = 0;
     this.mPerm = [];
-    
+
     for (let x = 0; x < 512; x++)
       this.mPerm.push(Perlin.__permutation[x % 256]);
   }
@@ -14,7 +19,7 @@ export class Perlin {
       z = z % this.mRepeat;
     }
 
-    let p = this.mPerm;
+    const p = this.mPerm;
 
     const xi = ~~x & 255;
     const yi = ~~y & 255;
@@ -37,11 +42,11 @@ export class Perlin {
 
     let x1 = this.lerp(this.grad(aaa, xf, yf, zf), this.grad(baa, xf - 1, yf, zf), u);
     let x2 = this.lerp(this.grad(aba, xf, yf - 1, zf), this.grad(bba, xf - 1, yf - 1, zf), u);
-    let y1 = this.lerp(x1, x2, v);
+    const y1 = this.lerp(x1, x2, v);
 
     x1 = this.lerp(this.grad(aab, xf, yf, zf - 1), this.grad(bab, xf - 1, yf, zf - 1), u);
     x2 = this.lerp(this.grad(abb, xf, yf - 1, zf - 1), this.grad(bbb, xf - 1, yf - 1, zf - 1), u);
-    let y2 = this.lerp(x1, x2, v);
+    const y2 = this.lerp(x1, x2, v);
 
     return (this.lerp(y1, y2, w) + 1) * 0.5;
   }

@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name */
 import { Debug } from "../core/Debug";
 import { ObjectPool } from "../utils/ObjectPool";
 import { Vector } from "./Vector";
@@ -10,6 +11,13 @@ import { MathEx } from "../math/MathEx";
  * @cat geom
  */
 export class Rectangle {
+	public x: any;
+	public y: any;
+	public width: any;
+	public height: any;
+  static pool: any;
+  static __cache: Rectangle;
+
   /**
    * Creates new instance of Rectangle.
    *

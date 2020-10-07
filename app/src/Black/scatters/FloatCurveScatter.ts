@@ -9,6 +9,10 @@ import { Vector } from "../geom/Vector";
  * @extends black-engine~FloatScatterBase
  */
 export class FloatCurveScatter extends FloatScatterBase {
+	public mCurve: any;
+	public mPointsCache: any;
+	public mCache: any;
+
   /**
    * Creates new FloatCurveScatter instance.
    *

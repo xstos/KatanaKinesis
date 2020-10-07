@@ -6,6 +6,8 @@ import { Debug } from "../core/Debug";
  * @cat audio
  */
 export class SoundEffect {
+	public mInputNode: any;
+	public mOutputNode: any;
 
   /**
    * Creates new instance of SoundEffect.

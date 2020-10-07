@@ -14,6 +14,9 @@ import { LoaderType } from "./LoaderType";
  * @extends black-engine~Asset
  */
 export class SoundAsset extends Asset {
+	public mUrl: any;
+	public mXHR: any;
+
   /**
    * Creates SoundAsset instance.
    *

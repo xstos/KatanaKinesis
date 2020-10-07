@@ -7,6 +7,12 @@ import { GraphicsGradient } from "./GraphicsGradient";
  * @cat display
  */
 export class GraphicsLinearGradient extends GraphicsGradient {
+	public x0: any;
+	public y0: any;
+	public x1: any;
+	public y1: any;
+	public isAbsolute: any;
+
   /**
    * Creates new instance of GraphicsLinearGradient
    *

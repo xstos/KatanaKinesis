@@ -7,6 +7,8 @@ import { Scatter } from "./Scatter";
  * @extends black-engine~Scatter
  */
 export class FloatScatterBase extends Scatter {
+	public value: any;
+
   /**
    * Creates new FloatScatter instance.
    */

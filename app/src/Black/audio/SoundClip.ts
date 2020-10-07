@@ -6,6 +6,11 @@ import { SoundInstance } from "./SoundInstance";
  * @cat audio
  */
 export class SoundClip {
+	public mNativeBuffer: any;
+	public mStartOffset: any;
+	public mDuration: any;
+	public mIsSubClip: any;
+
   /**
    * Creates new instance of SoundClip.
    * 

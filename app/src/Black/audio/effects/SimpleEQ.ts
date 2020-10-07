@@ -10,6 +10,10 @@ import { MathEx } from "../../math/MathEx";
  * @extends {black-engine~SoundEffect}
  */
 export class SimpleEQ extends SoundEffect {
+	public mFilters: any;
+	public mMaxGainLevel: any;
+	public mPresets: any;
+
   /**
    * Creates new instance of equalizer.
    * 

@@ -7,6 +7,11 @@ import { VectorScatterBase } from "./VectorScatterBase";
  * @extends black-engine~VectorScatterBase
  */
 export class RadialScatter extends VectorScatterBase {
+	public x: any;
+	public y: any;
+	public minRadius: any;
+	public maxRadius: any;
+
   /**
    * Creates new VectorScatter instance.
    *

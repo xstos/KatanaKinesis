@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { Black } from "../Black";
 import { DisplayObject } from "../display/DisplayObject";
 import { Sprite } from "../display/Sprite";
@@ -6,7 +7,7 @@ function addTexture(name, texture) {
   if (!texture)
     return null;
 
-  let pages = this.pages;
+  const pages = this.pages;
 
   let page = null;
   for (let i = 0; i < pages.length; i++) {
@@ -17,13 +18,15 @@ function addTexture(name, texture) {
   }
 
   if (page === null) {
+    // @ts-ignore
     page = new spine.TextureAtlasPage();
     page.name = 'texturePage';
     page.baseTexture = texture.native;
     pages.push(page);
   }
 
-  let region = new spine.TextureAtlasRegion();
+  // @ts-ignore
+  const region = new spine.TextureAtlasRegion();
   region.name = name;
   region.page = page;
   region.texture = texture;
@@ -41,38 +44,44 @@ function addTexture(name, texture) {
  * @extends DisplayObject
  */
 export class Spine extends DisplayObject {
+  mSkeleton: any;
+  mStateData: any;
+  mState: any;
+  mTempClipContainers: any[];
+  mTexturesPath: string;
   /**
    * Creates new instance of Spine.
    */
   constructor(name, texturesPath = '') {
     super();
 
-    let json = Black.assets.getJSON(name);
+    const json = Black.assets.getJSON(name);
 
-    let fakeLoader = function (path, loaderFunction, callback) {
+    const fakeLoader = function (path, loaderFunction, callback) {
       console.log('FAKE LOADER', path);
     };
 
-    let spineAtlas = new spine.TextureAtlas('', fakeLoader);
+    // @ts-ignore
+    const spineAtlas = new spine.TextureAtlas('', fakeLoader);
     spineAtlas.addTexture = addTexture;
 
-    let regions = {};
+    const regions = {};
 
-    for (let skinName in json.skins) {
-      let skin = json.skins[skinName];
+    for (const skinName in json.skins) {
+      const skin = json.skins[skinName];
 
-      for (let slotName in skin) {
-        let slot = skin[slotName];
+      for (const slotName in skin) {
+        const slot = skin[slotName];
 
-        for (let entryName in slot) {
-          let attachment = slot[entryName];
+        for (const entryName in slot) {
+          const attachment = slot[entryName];
 
           if (attachment.type === 'point')
             continue;
 
           if (attachment.type === 'path')
             continue;
-          
+
           if (attachment.type === 'clipping')
             continue;
 
@@ -89,34 +98,40 @@ export class Spine extends DisplayObject {
       }
     }
 
-    let attachmentParser = new spine.AtlasAttachmentLoader(spineAtlas);
-    let spineJsonParser = new spine.SkeletonJson(attachmentParser);
-    let skeletonData = spineJsonParser.readSkeletonData(json);
+    // @ts-ignore
+    const attachmentParser = new spine.AtlasAttachmentLoader(spineAtlas);
+    // @ts-ignore
+    const spineJsonParser = new spine.SkeletonJson(attachmentParser);
+    const skeletonData = spineJsonParser.readSkeletonData(json);
 
+    // @ts-ignore
     this.mSkeleton = new spine.Skeleton(skeletonData);
     this.mSkeleton.updateWorldTransform();
 
+    // @ts-ignore
     this.mStateData = new spine.AnimationStateData(skeletonData);
 
+    // @ts-ignore
     this.mState = new spine.AnimationState(this.mStateData);
 
     this.mTempClipContainers = [];
     this.mTexturesPath = texturesPath;
 
     for (let i = 0, len = this.mSkeleton.slots.length; i < len; i++) {
-      let slot = this.mSkeleton.slots[i];
-      let attachment = slot.attachment;
+      const slot = this.mSkeleton.slots[i];
+      const attachment = slot.attachment;
 
-      let slotContainer = new DisplayObject();
+      const slotContainer = new DisplayObject();
       slot.container = slotContainer;
 
       this.addChild(slotContainer);
       this.mTempClipContainers.push(null);
 
+      // @ts-ignore
       if (attachment instanceof spine.RegionAttachment) {
-        let spriteName = attachment.region.name;
+        const spriteName = attachment.region.name;
 
-        let sprite = this._createSprite(slot, attachment, spriteName);
+        const sprite = this._createSprite(slot, attachment, spriteName);
         slot.currentSprite = sprite;
         slot.currentSpriteName = spriteName;
         slotContainer.addChild(sprite);
@@ -139,7 +154,7 @@ export class Spine extends DisplayObject {
   }
 
   setTransition(from, to, loop, dur = 0, viseversaDur = 0) {
-    let h = (t) => {
+    const h = (t) => {
       if (t.animation.name === from)
         this.play(to, loop);
     };
@@ -157,18 +172,18 @@ export class Spine extends DisplayObject {
   }
 
   onUpdate() {
-    let dt = Black.time.delta;
+    const dt = Black.time.delta;
     this.mState.update(dt);
     this.mState.apply(this.mSkeleton);
     this.mSkeleton.updateWorldTransform();
-    let slots = this.mSkeleton.slots;
+    const slots = this.mSkeleton.slots;
 
     for (let i = 0, n = slots.length; i < n; i++) {
-      let slot = slots[i];
-      let attachment = slot.attachment;
+      const slot = slots[i];
+      const attachment = slot.attachment;
 
       let sprite = slot.currentSprite;
-      let wrapper = slot.container;
+      const wrapper = slot.container;
 
       if (!attachment) {
         wrapper.visible = false;
@@ -177,13 +192,14 @@ export class Spine extends DisplayObject {
 
       wrapper.visible = true;
 
+      // @ts-ignore
       if (attachment instanceof spine.RegionAttachment) {
-        let region = attachment.region;
+        const region = attachment.region;
 
         if (region) {
 
           if (!slot.currentSpriteName || slot.currentSpriteName !== region.name) {
-            let spriteName = region.name;
+            const spriteName = region.name;
             if (slot.currentSprite) {
               slot.currentSprite.visible = false;
             }
@@ -192,7 +208,7 @@ export class Spine extends DisplayObject {
               slot.sprites[spriteName].visible = true;
             }
             else {
-              let sprite = this._createSprite(slot, attachment, spriteName);
+              const sprite = this._createSprite(slot, attachment, spriteName);
               wrapper.addChild(sprite);
             }
             slot.currentSprite = slot.sprites[spriteName];
@@ -201,22 +217,22 @@ export class Spine extends DisplayObject {
           }
         }
 
-        let bone = slot.bone;
-        let w = region.width;
-        let h = region.height;
+        const bone = slot.bone;
+        const w = region.width;
+        const h = region.height;
 
-        let regionHeight = region.rotate ? region.width : region.height;
+        const regionHeight = region.rotate ? region.width : region.height;
 
         sprite.scaleX = attachment.scaleX * (attachment.width / region.width);
         sprite.scaleY = attachment.scaleY * (attachment.height / region.height);
 
-        let radians = -attachment.rotation * Math.PI / 180;
+        const radians = -attachment.rotation * Math.PI / 180;
         sprite.rotation = radians;
 
-        let cos = Math.cos(radians);
-        let sin = Math.sin(radians);
-        let shiftX = -attachment.width / 2 * attachment.scaleX;
-        let shiftY = -attachment.height / 2 * attachment.scaleY;
+        const cos = Math.cos(radians);
+        const sin = Math.sin(radians);
+        const shiftX = -attachment.width / 2 * attachment.scaleX;
+        const shiftY = -attachment.height / 2 * attachment.scaleY;
         sprite.x = attachment.x + shiftX * cos - shiftY * sin;
         sprite.y = -attachment.y + shiftX * sin + shiftY * cos;
 
@@ -225,34 +241,36 @@ export class Spine extends DisplayObject {
 
         wrapper.rotation = Math.atan2(-bone.c, bone.a);
 
-        let flipX = 1;
-        let flipY = 1;
+        const flipX = 1;
+        const flipY = 1;
 
-        let wsx = Math.sqrt(bone.a * bone.a + bone.c * bone.c);
-        let wsy = Math.sqrt(bone.b * bone.b + bone.d * bone.d);
+        const wsx = Math.sqrt(bone.a * bone.a + bone.c * bone.c);
+        const wsy = Math.sqrt(bone.b * bone.b + bone.d * bone.d);
 
         wrapper.scaleX = wsx * flipX;
         wrapper.scaleY = wsy * flipY;
 
         wrapper.alpha = this.mSkeleton.color.a * slot.color.a * attachment.color.a;
 
-      } else if (attachment instanceof spine.PointAttachment) {
-        wrapper.x = slot.bone.worldX + attachment.x;
-        wrapper.y = -slot.bone.worldY - attachment.y;
+      } else { // @ts-ignore
+        if (attachment instanceof spine.PointAttachment) {
+                wrapper.x = slot.bone.worldX + attachment.x;
+                wrapper.y = -slot.bone.worldY - attachment.y;
+              }
       }
     }
   }
 
   _createSprite(slot, attachment, name) {
     let region = attachment.region;
-    
+
     if (slot.tempAttachment === attachment) {
       region = slot.tempRegion;
       slot.tempAttachment = null;
       slot.tempRegion = null;
     }
 
-    let sprite = new Sprite(this.mTexturesPath + name);
+    const sprite = new Sprite(this.mTexturesPath + name);
     sprite.alpha = attachment.color.a;
     sprite.region = attachment.region;
     this._setSpriteRegion(attachment, sprite, attachment.region);
@@ -268,7 +286,7 @@ export class Spine extends DisplayObject {
       sprite.scaleX = attachment.scaleX * attachment.width / region.width;
       sprite.scaleY = -attachment.scaleY * attachment.height / region.height;
     } else {
-      //hacked!
+      // hacked!
       sprite.scaleX = region.size.width / region.width;
       sprite.scaleY = -region.size.height / region.height;
     }

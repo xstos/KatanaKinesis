@@ -8,6 +8,12 @@ import { Vector } from "../geom/Vector";
  * @extends black-engine~VectorScatterBase
  */
 export class VectorScatter extends VectorScatterBase {
+	public minX: any;
+	public minY: any;
+	public maxX: any;
+	public maxY: any;
+	public ease: any;
+
   /**
    * Creates new VectorScatter instance.
    *

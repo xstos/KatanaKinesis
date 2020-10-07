@@ -16,6 +16,20 @@ import { MathEx } from "../math/MathEx";
  * @extends black-engine~GameObject
  */
 export class DisplayObject extends GameObject {
+	public mAlpha: any;
+	public mBlendMode: any;
+	public mVisible: any;
+	public mClipRect: any;
+	public mRenderer: any;
+	public mCacheAsBitmap: any;
+	public mCacheAsBitmapDynamic: any;
+	public mCacheAsBitmapDirty: any;
+	public mCacheAsBitmapMatrixCache: any;
+	public mCache: any;
+	public mCacheBounds: any;
+	public mColor: any;
+	public mSnapToPixels: any;
+
   constructor() {
     super();
 

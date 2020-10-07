@@ -9,6 +9,13 @@ import { Rectangle } from "../geom/Rectangle";
  * @extends black-engine~Collider
  */
 export class BoxCollider extends Collider {
+	public mRect: any;
+	public mNormals: any;
+	public mVertices: any;
+	public mLocalMin: any;
+	public mLocalMax: any;
+	public mLocalCenter: any;
+
   /**
    * Creates instance of BoxCollider.
    *

@@ -3,6 +3,13 @@
  * @cat display
  */
 export class TilingInfo {
+	public width: any;
+	public height: any;
+	public scaleX: any;
+	public scaleY: any;
+	public wrapX: any;
+	public wrapY: any;
+
   /**
    * Creates new TilingInfo instance.
    * 

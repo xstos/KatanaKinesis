@@ -7,7 +7,9 @@ import { ColorHelper } from "../utils/ColorHelper";
  * @cat scatters
  * @extends Scatter
  */
-export class ColorScatterBase extends Scatter {  
+export class ColorScatterBase extends Scatter {
+	public value: any;
+
   constructor() {
     super();
 

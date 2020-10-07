@@ -57,6 +57,23 @@ let bounceTreshhold = 1;
  */
 
 export class Pair {
+	public a: any;
+	public b: any;
+	public bodyA: any;
+	public bodyB: any;
+	public mInCollision: any;
+	public mIsStatic: any;
+	public mNormalImpulse: any;
+	public mTangentImpulse: any;
+	public mPositionImpulse: any;
+	public mFriction: any;
+	public mBias: any;
+	public mMass: any;
+	public mOffset: any;
+	public mNormal: any;
+	public mOverlap: any;
+	public mChanged: any;
+
   /**
    * Creates new instance of Pair.
    */

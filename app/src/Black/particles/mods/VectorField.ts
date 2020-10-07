@@ -7,6 +7,15 @@ import { Vector } from "../../geom/Vector";
  * @extends black-engine~Modifier
  */
 export class VectorField extends Modifier {
+	public x: any;
+	public y: any;
+	public width: any;
+	public height: any;
+	public resolution: any;
+	public field: any;
+	public widthScaled: any;
+	public heightScaled: any;
+
   /**
    * Creates new instance of VectorField.
    *

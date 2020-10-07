@@ -12,6 +12,10 @@ import { LoaderType } from "./LoaderType";
  * @extends black-engine~Asset
  */
 export class BVGAsset extends Asset {
+	public mUrl: any;
+	public mGraphicsData: any;
+	public mXHR: any;
+
   /**
    * Creates new JSONAsset instance.
    *

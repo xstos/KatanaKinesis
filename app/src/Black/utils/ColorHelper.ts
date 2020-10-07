@@ -4,6 +4,10 @@
  * @cat utils
  */
 export class RGB {
+	public r: any;
+	public g: any;
+	public b: any;
+
   /**
    * Creates new RGB instance.
    * 
@@ -38,6 +42,10 @@ export class RGB {
  * @cat utils
  */
 export class HSV {
+	public h: any;
+	public s: any;
+	public v: any;
+
   /**
    * Creates new HSV instance.
    * 
@@ -73,6 +81,13 @@ export class HSV {
  * @static
 */
 export class ColorHelper {
+	public h: any;
+	public s: any;
+	public v: any;
+	public r: any;
+	public g: any;
+	public b: any;
+
   /**
    * Converts number color to RGB object.
    *

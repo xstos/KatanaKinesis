@@ -4,6 +4,9 @@
  * @cat drivers
  */
 export class RenderTarget {
+	public mWidth: any;
+	public mHeight: any;
+
   /**
    * Creates new instance fo RenderTarget.
    *

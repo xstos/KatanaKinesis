@@ -4,6 +4,13 @@
  * @cat physics.arcade.helpers
  */
 export class Projection {
+	public axis: any;
+	public verticesA: any;
+	public verticesB: any;
+	public rangeA: any;
+	public rangeB: any;
+	public offset: any;
+
   /**
    * Creates new instance of Projection.
    */
@@ -104,6 +111,9 @@ export class Projection {
  * @cat physics.arcade.helpers
  */
 export class Range {
+	public min: any;
+	public max: any;
+
   /**
    * Creates new instance of Range.
    */

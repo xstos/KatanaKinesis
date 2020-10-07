@@ -5,6 +5,10 @@
  * @static
  */
 export class MathEx {
+  static PI_Q: number;
+  static PI2: number;
+  static DEG2RAD: number;
+  static RAD2DEG: number;
   /**
    * Generates a random number in given range.
    *

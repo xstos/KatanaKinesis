@@ -21,6 +21,32 @@ import { Message } from "../messages/Message";
  * @extends black-engine~DisplayObject
  */
 export class Emitter extends DisplayObject {
+	public mTextures: any;
+	public mParticles: any;
+	public mRecycled: any;
+	public mInitializers: any;
+	public mActions: any;
+	public mSpace: any;
+	public mIsLocal: any;
+	public mMaxParticles: any;
+	public mEmitCount: any;
+	public mEmitNumRepeats: any;
+	public mEmitNumRepeatsLeft: any;
+	public mEmitDuration: any;
+	public mEmitDurationLeft: any;
+	public mEmitInterval: any;
+	public mEmitIntervalLeft: any;
+	public mEmitDelay: any;
+	public mEmitDelayLeft: any;
+	public mNextUpdateAt: any;
+	public mState: any;
+	public __tmpLocal: any;
+	public __tmpWorld: any;
+	public mSortOrder: any;
+	public mTextureNames: any;
+	public mPresimulateSeconds: any;
+	public mCurrentPresimulationTime: any;
+
   /**
    * Creates new Emitter instance.
    */

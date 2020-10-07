@@ -38,6 +38,22 @@ import { LoaderFactory } from "./LoaderFactory";
  * @extends black-engine~MessageDispatcher
  */
 export class AssetManager extends MessageDispatcher {
+	public mDefaultPath: any;
+	public mTotalLoaded: any;
+	public mTotalPending: any;
+	public mTotalErrors: any;
+	public mIsAllLoaded: any;
+	public mLoadingProgress: any;
+	public mQueue: any;
+	public mLoadersQueue: any;
+	public mState: any;
+	public mLoaderFactory: any;
+	public mAssets: any;
+	public mAssetTypeMap: any;
+	public mLoaderTypeMap: any;
+	public mTextures: any;
+	public mDictionary: any;
+
   /**
    * Creates new AssetManager instance. AssetManager exposes static property
    * called 'default' and many internal classes uses default instance.
@@ -730,7 +746,7 @@ export class AssetManager extends MessageDispatcher {
     Debug.assert(this.mState === AssetManagerState.NONE || this.mState === AssetManagerState.FINISHED, 'Illegal state.');
   }
 
-  __validateName(type, name) {
+  __validateName(type, name?) {
     if (this.mAssets[type] && this.mAssets[type][name])
       Debug.assert(this.mDictionary[name] == null, 'Asset with such name is already added.');
   }

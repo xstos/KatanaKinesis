@@ -1,3 +1,4 @@
+/* tslint:disable:no-unnecessary-initializer max-line-length */
 import { GameObject } from "../core/GameObject";
 import { StageScaleMode } from "./StageScaleMode";
 import { Black } from "../Black";
@@ -15,71 +16,81 @@ import { Debug } from "../core/Debug";
  * @extends black-engine~GameObject
  */
 export class Stage extends GameObject {
+	public mScaleMode: any;
+	public mWidth: any;
+	public mHeight: any;
+	public mStageWidth: any;
+	public mStageHeight: any;
+	public mStageScaleFactor: any;
+	public mCacheWidth: any;
+	public mCacheHeight: any;
+	public mDPR: any;
+
   constructor() {
     super();
 
-    /** 
-     * @private 
-     * @type {string} 
+    /**
+     * @private
+     * @type {string}
      */
     this.mName = 'stage';
 
-    /** 
-     * @private 
-     * @type {black-engine~StageScaleMode} 
+    /**
+     * @private
+     * @type {black-engine~StageScaleMode}
      */
     this.mScaleMode = StageScaleMode.NORMAL;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mWidth = 960;
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mHeight = 640;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mStageWidth = 0;
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mStageHeight = 0;
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mStageScaleFactor = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mCacheWidth = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mCacheHeight = 0;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mDPR = Black.device.getDevicePixelRatio();
 
     this.mAdded = true;
 
-    // Fake 
+    // Fake
     if (Black.engine.hasSystem(Input)){
-      let c = new InputComponent()
+      const c = new InputComponent()
       c.mAdded = true;
       this.addComponent(c);
     }
@@ -103,7 +114,7 @@ export class Stage extends GameObject {
    * @inheritDoc
    */
   onUpdate() {
-    let size = Black.engine.viewport.size;
+    const size = Black.engine.viewport.size;
 
     if (this.mCacheWidth !== size.width || this.mCacheHeight !== size.height) {
       this.mCacheWidth = size.width;
@@ -114,7 +125,7 @@ export class Stage extends GameObject {
   }
 
   /**
-   * Refreshes stage size. Call this method only if you are changing the size of the container manually. 
+   * Refreshes stage size. Call this method only if you are changing the size of the container manually.
    */
   refresh() {
     this.__refresh();
@@ -296,7 +307,7 @@ export class Stage extends GameObject {
     Debug.error('Not allowed.');
   }
 
-  removeFromParent() { Debug.error('Not allowed.'); }
+  removeFromParent() { Debug.error('Not allowed.'); return this; }
 
   set scaleX(value) { Debug.error('Not allowed.'); }
   get scaleX() { return 1; }

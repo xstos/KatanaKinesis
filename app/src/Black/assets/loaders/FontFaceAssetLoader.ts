@@ -8,6 +8,17 @@ import { FontMetrics } from "../../display/text/FontMetrics";
  * @extends black-engine~AssetLoader
  */
 export class FontFaceAssetLoader extends AssetLoader {
+	public mName: any;
+	public mTestingFontName: any;
+	public mIsLocal: any;
+	public mTestingString: any;
+	public mCheckDelay: any;
+	public mTestingElement: any;
+	public metrics: any;
+	public mLoaderElement: any;
+	public mDefaultFontWidth: any;
+	public mTimeoutHandle: any;
+
   /**
    * Creates new FontFaceAssetLoader instance.
    *
@@ -18,69 +29,69 @@ export class FontFaceAssetLoader extends AssetLoader {
   constructor(name, url, isLocal) {
     super(url);
 
-    /** 
-     * @private 
-     * @type {string} 
+    /**
+     * @private
+     * @type {string}
      */
     this.mName = name;
 
-    /** 
-     * @private 
-     * @type {string} 
+    /**
+     * @private
+     * @type {string}
      */
     this.mTestingFontName = 'Courier New';
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mIsLocal = isLocal;
 
-    /** 
-     * @private 
-     * @type {string} 
+    /**
+     * @private
+     * @type {string}
      */
     this.mTestingString = '~ GHBDTN,.#$Mlck';
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mCheckDelay = 50;
 
-    /** 
-     * @private 
-     * @type {HTMLElement} 
+    /**
+     * @private
+     * @type {HTMLElement}
      */
     this.mTestingElement = this.__getTestingElement();
 
-    /** 
-     * @private 
-     * @type {black-engine~FontMetrics|null} 
+    /**
+     * @private
+     * @type {black-engine~FontMetrics|null}
      */
     this.metrics = null;
 
-    /** 
-     * @private 
-     * @type {Element} 
+    /**
+     * @private
+     * @type {Element}
      */
     this.mLoaderElement = this.__getLoaderElement(this.mIsLocal);
     this.mTestingElement.style.fontFamily = this.mTestingFontName;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mDefaultFontWidth = this.mTestingElement.offsetWidth;
     this.mTestingElement.style.fontFamily = '"' + name + '",' + this.mTestingFontName;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mTimeoutHandle = -1;
 
-    
+
   }
 
   load() {
@@ -103,9 +114,10 @@ export class FontFaceAssetLoader extends AssetLoader {
    * @return {Element}
    */
   __getLoaderElement(local) {
-    let loaderElement = document.createElement(local ? 'style' : 'link');
+    const loaderElement = document.createElement(local ? 'style' : 'link');
     loaderElement.type = 'text/css';
     loaderElement.media = 'all';
+    // @ts-ignore
     loaderElement.rel = 'stylesheet';
     loaderElement.onerror = () => { this.onError(); };
     document.getElementsByTagName('head')[0].appendChild(loaderElement);
@@ -118,7 +130,7 @@ export class FontFaceAssetLoader extends AssetLoader {
    * @return {HTMLElement}
    */
   __getTestingElement() {
-    let testingElement = /** @type {HTMLElement}*/ (document.createElement('span'));
+    const testingElement = /** @type {HTMLElement} */ (document.createElement('span'));
     testingElement.style.position = 'absolute';
     testingElement.style.top = '-9999px';
     testingElement.style.left = '-9999px';

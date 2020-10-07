@@ -13,6 +13,15 @@ import { Message } from "../messages/Message";
  * @extends {black-engine~Component}
  */
 export class Sound extends Component {
+	public mSoundClip: any;
+	public mRolloff: any;
+	public mPlayOnAdded: any;
+	public mStopOnRemove: any;
+	public mSoundInstance: any;
+	public mCompleteBinding: any;
+	public mSpatialEffect: any;
+	public mChannelName: any;
+
   /**
    * Creates new instance of SoundComponent.
    * 

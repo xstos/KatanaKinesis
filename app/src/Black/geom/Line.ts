@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name */
 import { Vector } from "./Vector";
 
 /**
@@ -6,6 +7,10 @@ import { Vector } from "./Vector";
  * @cat geom
  */
 export class Line {
+	public start: any;
+	public end: any;
+  static __cache: Line;
+
   /**
    * Creates new Line instance.
    * @param  {black-engine~Vector} start Start point.

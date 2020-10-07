@@ -9,6 +9,12 @@ import { MathEx } from "../../math/MathEx";
  * @extends {black-engine~SoundEffect}
  */
 export class StereoPanner extends SoundEffect {
+	public mGainL: any;
+	public mGainR: any;
+	public mSplitter: any;
+	public mMerger: any;
+	public mValue: any;
+
   /**
    * Creates new instance of StereoPan.
    */

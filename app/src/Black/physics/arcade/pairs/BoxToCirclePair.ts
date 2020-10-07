@@ -13,6 +13,10 @@ var pool = null;
  */
 
 export class BoxToCirclePair extends Pair {
+	public mBoxHalfWidth: any;
+	public mBoxHalfHeight: any;
+	public mBoxRotate: any;
+	public mCircleCenter: any;
 
   /**
    * Creates new instance of BoxToBoxPair.

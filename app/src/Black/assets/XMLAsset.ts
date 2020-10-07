@@ -10,6 +10,9 @@ import { LoaderType } from "./LoaderType";
  * @extends black-engine~Asset
  */
 export class XMLAsset extends Asset {
+	public mUrl: any;
+	public mXHR: any;
+
   /**
    * Creates new JSONAsset instance.
    *

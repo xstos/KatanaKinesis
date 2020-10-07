@@ -7,6 +7,14 @@ var mInstance = null;
  * @staticClass
  */
 class Black {
+	public mEngine: any;
+	public mInput: any;
+	public mAudio: any;
+	public mTime: any;
+	public mDevice: any;
+	public mAssets: any;
+	public mCamera: any;
+
   constructor() {
     mInstance = this;
 

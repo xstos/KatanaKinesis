@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name */
 import { BlendMode } from "./BlendMode";
 import { Texture } from "../textures/Texture";
 import { ColorHelper } from "../utils/ColorHelper";
@@ -10,6 +11,19 @@ import { RenderTargetCanvas } from "./canvas/RenderTargetCanvas";
  * @cat drivers
  */
 export class Renderer {
+	public gameObject: any;
+	public parent: any;
+	public skipChildren: any;
+	public skipSelf: any;
+	public endPassRequired: any;
+	public endPassRequiredAt: any;
+	public alpha: any;
+	public blendMode: any;
+	public color: any;
+  static __colorCache: any;
+  static __dirty: boolean;
+  static skipUnchangedFrames: boolean;
+
   /**
    * Creates new instance of Renderer.
    */
@@ -20,45 +34,45 @@ export class Renderer {
     /** @type {black-engine~Renderer|null} */
     this.parent = null;
 
-    /** 
-     * @ignore 
-     * @type {boolean} 
+    /**
+     * @ignore
+     * @type {boolean}
      */
     this.skipChildren = false;
 
-    /** 
-     * @ignore 
-     * @type {boolean} 
+    /**
+     * @ignore
+     * @type {boolean}
      */
     this.skipSelf = false;
 
-    /** 
-     * @ignore 
-     * @type {boolean} 
+    /**
+     * @ignore
+     * @type {boolean}
      */
     this.endPassRequired = false;
 
-    /** 
-     * @ignore 
-     * @type {number} 
+    /**
+     * @ignore
+     * @type {number}
      */
     this.endPassRequiredAt = -1;
 
-    /** 
-     * @ignore 
-     * @type {number} 
+    /**
+     * @ignore
+     * @type {number}
      */
     this.alpha = 1;
 
-    /** 
-     * @ignore 
-     * @type {black-engine~BlendMode} 
+    /**
+     * @ignore
+     * @type {black-engine~BlendMode}
      */
     this.blendMode = BlendMode.NORMAL;
 
-    /** 
-     * @ignore 
-     * @type {number|null} 
+    /**
+     * @ignore
+     * @type {number|null}
      */
     this.color = null;
   }
@@ -79,8 +93,8 @@ export class Renderer {
 
   /**
    * Called after `preRender` but before `GameObject#onRender`. Used to compute world alpha, color and blend mode.
-   * @param {black-engine~VideoNullDriver} driver 
-   * @param {black-engine~RenderSession} session 
+   * @param {black-engine~VideoNullDriver} driver
+   * @param {black-engine~RenderSession} session
    */
   begin(driver, session) {
     this.alpha = this.gameObject.mAlpha * this.parent.alpha;
@@ -90,13 +104,13 @@ export class Renderer {
 
   /**
    * Called if `skipSelf` equals to false. Used to upload everything onto gpu.
-   * 
-   * @param {black-engine~VideoNullDriver} driver 
-   * @param {black-engine~RenderSession} session 
+   *
+   * @param {black-engine~VideoNullDriver} driver
+   * @param {black-engine~RenderSession} session
    */
   upload(driver, session) {
-    let gameObject = /** @type {DisplayObject} */ (this.gameObject);
-    let transform = gameObject.worldTransformation;
+    const gameObject = /** @type {DisplayObject} */ (this.gameObject);
+    const transform = gameObject.worldTransformation;
 
     driver.setSnapToPixels(gameObject.snapToPixels);
     driver.setGlobalAlpha(this.alpha);
@@ -119,9 +133,9 @@ export class Renderer {
 
   /**
    * Called after all children objects got rendered.
-   * 
-   * @param {black-engine~VideoNullDriver} driver 
-   * @param {black-engine~RenderSession} session 
+   *
+   * @param {black-engine~VideoNullDriver} driver
+   * @param {black-engine~RenderSession} session
    */
   end(driver, session) {
     driver.endClip();
@@ -132,25 +146,25 @@ export class Renderer {
 
   /**
    * Tints given texture with a given color.
-   * 
-   * @param {black-engine~Texture} texture 
-   * @param {number|null} color 
+   *
+   * @param {black-engine~Texture} texture
+   * @param {number|null} color
    * @returns {black-engine~Texture}
    */
   static getColoredTexture(texture, color) {
     if (color === 0xFFFFFF || color === null)
       return texture;
 
-    let colorString = color.toString();
+    const colorString = color.toString();
     if (Renderer.__colorCache.has(texture.id, colorString))
-      return /** @type {Texture}*/ (Renderer.__colorCache.get(texture.id, colorString));
+      return /** @type {Texture} */ (Renderer.__colorCache.get(texture.id, colorString));
 
-    let region = texture.region;
-    let w = region.width;
-    let h = region.height;
+    const region = texture.region;
+    const w = region.width;
+    const h = region.height;
 
-    let rt = new RenderTargetCanvas(w, h);
-    let ctx = rt.context;
+    const rt = new RenderTargetCanvas(w, h);
+    const ctx = rt.context;
 
     ctx.fillStyle = ColorHelper.hexColorToString(color);
     ctx.fillRect(0, 0, w, h);
@@ -161,7 +175,7 @@ export class Renderer {
     ctx.globalCompositeOperation = 'destination-atop';
     ctx.drawImage(texture.native, region.x, region.y, region.width, region.height, 0, 0, region.width, region.height);
 
-    let t = new Texture(rt.native, null, texture.untrimmedRegion.clone(), texture.scale);
+    const t = new Texture(rt.native, null, texture.untrimmedRegion.clone(), texture.scale);
     Renderer.__colorCache.set(texture.id, colorString, t);
 
     return t;

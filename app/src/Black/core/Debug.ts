@@ -1,3 +1,5 @@
+/* tslint:disable:no-console */
+
 // @ifdef DEBUG
 /**
  * Utility class for logging and debugging.
@@ -5,16 +7,19 @@
  * @cat core
  */
 export class Debug {
+  static logOnFail: any;
+  static throwOnFail: any;
+  static timeProfiles: any;
   constructor() {
-    Debug.assert(false, 'Static class.');
+    Debug.assert(false, ' Static class.');
   }
 
   static isNumber(...values) {
     values.forEach(x => {
-      if (typeof x === 'number' && isNaN(parseFloat(x)) === false && isFinite(x) === true)
+      if (typeof x === 'number' && isNaN(x) === false && isFinite(x) === true)
         return;
 
-      let message = 'Not a number.';
+      const message = 'Not a number.';
 
       if (Debug.logOnFail)
         console.error('[ASSERT]', message);
@@ -24,7 +29,7 @@ export class Debug {
     });
   }
 
-  static assert(value, message) {
+  static assert(value, message?) {
     if (value === true)
       return;
 
@@ -55,7 +60,7 @@ export class Debug {
 
   /**
    * Outputs a message to the console
-   * 
+   *
    * @param  {...string} message
    */
   static log(...message) {
@@ -64,7 +69,7 @@ export class Debug {
 
   /**
    * Outputs a info message to the console
-   * 
+   *
    * @param  {...string} message
    */
   static info(...message) {
@@ -73,7 +78,7 @@ export class Debug {
 
   /**
    * Outputs a warning message to the console
-   * 
+   *
    * @param  {...string} message
    */
   static warn(...message) {
@@ -82,7 +87,7 @@ export class Debug {
 
   /**
    * Outputs a error message to the console
-   * 
+   *
    * @param  {...string} message
    */
   static error(...message) {
@@ -90,16 +95,16 @@ export class Debug {
   }
 
   /**
-   * 
-   * @param {string} name 
+   *
+   * @param {string} name
    */
   static time(name) {
     Debug.timeProfiles[name] = performance.now();
   }
 
   /**
-   * 
-   * @param {string} name 
+   *
+   * @param {string} name
    */
   static timeEnd(name) {
     Debug.timeProfiles[name] = performance.now() - Debug.timeProfiles[name];

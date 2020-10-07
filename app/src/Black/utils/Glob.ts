@@ -10,6 +10,8 @@ const patterns = { '*': '[^/]+', '**': '.+/?[^/]+', '**/': '.+/?' };
  * @cat utils
  */
 export class Glob {
+	public mRegExp: any;
+
   /**
    * Creates new Glob instance.
    * 

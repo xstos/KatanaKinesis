@@ -1,3 +1,4 @@
+/* tslint:disable:no-unnecessary-initializer */
 import { DisplayObject } from "./DisplayObject";
 import { Texture } from "../textures/Texture";
 import { Black } from "../Black";
@@ -11,6 +12,13 @@ import { DirtyFlag } from "../core/DirtyFlag";
  * @extends black-engine~DisplayObject
  */
 export class Sprite extends DisplayObject {
+	public mTexture: any;
+	public mTextureName: any;
+	public mTiling: any;
+	public mSlice9grid: any;
+	public mUseTextureProps: any;
+  region: any;
+
   /**
    * Creates a new Sprite instance.
    *
@@ -19,33 +27,33 @@ export class Sprite extends DisplayObject {
   constructor(texture = null, useTextureProps = true) {
     super();
 
-    /** 
-     * @private 
-     * @type {black-engine~Texture|null} 
+    /**
+     * @private
+     * @type {black-engine~Texture|null}
      */
     this.mTexture = null;
 
-    /** 
-     * @private 
-     * @type {string|null} 
+    /**
+     * @private
+     * @type {string|null}
      */
     this.mTextureName = null;
 
-    /** 
-     * @private 
-     * @type {black-engine~TilingInfo|null} 
+    /**
+     * @private
+     * @type {black-engine~TilingInfo|null}
      */
     this.mTiling = null;
 
-    /** 
-     * @private 
-     * @type {black-engine~Rectangle|null} 
+    /**
+     * @private
+     * @type {black-engine~Rectangle|null}
      */
     this.mSlice9grid = null;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mUseTextureProps = useTextureProps;
 

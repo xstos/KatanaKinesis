@@ -14,6 +14,13 @@ import { Matrix } from "../geom/Matrix";
  * @extends black-engine~DisplayObject
  */
 export class Graphics extends DisplayObject {
+	public mBounds: any;
+	public mLocalBounds: any;
+	public mGraphicsData: any;
+	public mDataOffsetX: any;
+	public mDataOffsetY: any;
+	public mTrim: any;
+
   /**
    * Creates new Graphics instance.
    *

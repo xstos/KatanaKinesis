@@ -14,6 +14,13 @@ import { MessageBinding } from "../messages/MessageBinding";
  * @extends black-engine~MessageDispatcher
  */
 export class Asset extends MessageDispatcher {
+	public mType: any;
+	public mName: any;
+	public mData: any;
+	public mLoaders: any;
+	public mNumLoaded: any;
+	public mIsReady: any;
+
   /**
    * Creates new Asset instance.
    *

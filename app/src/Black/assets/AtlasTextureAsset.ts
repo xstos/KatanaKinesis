@@ -14,6 +14,12 @@ import { LoaderType } from "./LoaderType";
  * @extends black-engine~Asset
  */
 export class AtlasTextureAsset extends Asset {
+	public mImageUrl: any;
+	public mDataUrl: any;
+	public mScale: any;
+	public mImageLoader: any;
+	public mXHR: any;
+
   /**
    * Creates new AtlasTextureAsset instance.
    *

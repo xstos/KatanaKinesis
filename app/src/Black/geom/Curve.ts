@@ -1,3 +1,4 @@
+/* tslint:disable:max-line-length no-shadowed-variable variable-name */
 import { Vector } from "./Vector";
 
 /**
@@ -6,37 +7,44 @@ import { Vector } from "./Vector";
  * @cat geom
  */
 export class Curve {
+	public mPoints: any;
+	public mLookup: any;
+	public mBaked: any;
+	public mStep: any;
+	public mEachT: any;
+  static __cache: Curve;
+
   /**
    * Creates new Curve instance.
    */
   constructor() {
-    /** 
-     * @private 
-     * @type {Array<number>} 
+    /**
+     * @private
+     * @type {Array<number>}
      */
     this.mPoints = [];
 
-    /** 
-     * @private 
-     * @type {Array<black-engine~Vector>} 
+    /**
+     * @private
+     * @type {Array<black-engine~Vector>}
      */
     this.mLookup = null;
 
-    /** 
-     * @private 
-     * @type {boolean} 
+    /**
+     * @private
+     * @type {boolean}
      */
     this.mBaked = false;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.mStep = 1 / 60;
 
-    /** 
-     * @private 
-     * @type {Array<number>} 
+    /**
+     * @private
+     * @type {Array<number>}
      */
     this.mEachT = [];
   }
@@ -103,17 +111,19 @@ export class Curve {
    * @return {black-engine~Curve} This curve.
    */
   __refreshCache() {
-    let lookup = this.mLookup = [];
-    let getFullLength = this.getFullLength();
-    let points = this.mPoints;
-    let pointsLen = points.length;
+    const lookup = this.mLookup = [];
+    const getFullLength = this.getFullLength();
+    const points = this.mPoints;
+    const pointsLen = points.length;
 
     for (let i = 0; i < pointsLen; i += 8) {
-      let length = Curve.getLength(...points.slice(i, i + 8));
-      let step = this.mStep * getFullLength / length;
+      const length = Curve.getLength(...points.slice(i, i + 8));
+      const step = this.mStep * getFullLength / length;
 
       for (let t = step; t < 1; t += step)
-        lookup.push(Curve.lerp(t, ...points.slice(i, i + 8)));
+        { // @ts-ignore
+          lookup.push(Curve.lerp(t, ...points.slice(i, i + 8)));
+        }
     }
 
     return this;
@@ -128,15 +138,15 @@ export class Curve {
    * @return {black-engine~Curve} This curve.
    */
   __refreshEachT() {
-    let points = this.mPoints;
-    let eachT = this.mEachT = [];
-    let pointsLen = points.length;
-    let eachLength = [];
+    const points = this.mPoints;
+    const eachT = this.mEachT = [];
+    const pointsLen = points.length;
+    const eachLength = [];
 
     for (let i = 0; i < pointsLen; i += 8)
       eachLength.push(Curve.getLength(...points.slice(i, i + 8)));
 
-    let length = this.getFullLength();
+    const length = this.getFullLength();
     let s = 0;
     for (let i = 0; i < pointsLen; i += 8) {
       s += eachLength[i / 8];
@@ -161,14 +171,14 @@ export class Curve {
    * @param  {black-engine~Vector=} outVector
    * @return {black-engine~Vector} Position on bezier.
    */
-  static lerp(t, startX, startY, cpStartX, cpStartY, cpEndX, cpEndY, endX, endY, outVector) {
-    let u = 1 - t;
-    let tt = t * t;
-    let uu = u * u;
-    let uuu = uu * u;
-    let ttt = tt * t;
+  static lerp(t, startX, startY?, cpStartX?, cpStartY?, cpEndX?, cpEndY?, endX?, endY?, outVector?) {
+    const u = 1 - t;
+    const tt = t * t;
+    const uu = u * u;
+    const uuu = uu * u;
+    const ttt = tt * t;
 
-    let p = outVector || new Vector();
+    const p = outVector || new Vector();
     p.set(startX, startY);
     p.x *= uuu;
     p.y *= uuu;
@@ -196,28 +206,29 @@ export class Curve {
    * @return {black-engine~Vector} Position on curve.
    */
   interpolate(t, outVector) {
-    let res = outVector || new Vector();
-    let lookup = this.mLookup;
+    const res = outVector || new Vector();
+    const lookup = this.mLookup;
 
     if (this.mBaked) {
-      let i = Math.ceil((lookup.length - 1) * t);
-      let p = lookup[i];
+      const i = Math.ceil((lookup.length - 1) * t);
+      const p = lookup[i];
       res.copyFrom(p);
 
       return res;
     }
 
     // not backed
-    let { mEachT, mPoints } = this;
+    const { mEachT, mPoints } = this;
     let i = 0;
 
     while (mEachT[i] < t)
       i++;
 
-    let minT = mEachT[i - 1] || 0;
-    let maxT = mEachT[i];
-    let bezier = mPoints.slice(i * 8, i * 8 + 8);
+    const minT = mEachT[i - 1] || 0;
+    const maxT = mEachT[i];
+    const bezier = mPoints.slice(i * 8, i * 8 + 8);
 
+    // @ts-ignore
     return Curve.lerp((t - minT) / (maxT - minT), ...bezier, res);
   }
 
@@ -228,10 +239,10 @@ export class Curve {
    * @return {number} Length.
    */
   static getLength(...points) {
-    let p0 = new Vector(points[0], points[1]);
-    let p1 = new Vector(points[2], points[3]);
-    let p2 = new Vector(points[4], points[5]);
-    let p3 = new Vector(points[6], points[7]);
+    const p0 = new Vector(points[0], points[1]);
+    const p1 = new Vector(points[2], points[3]);
+    const p2 = new Vector(points[4], points[5]);
+    const p3 = new Vector(points[6], points[7]);
 
     return (p3.distance(p0) + p0.distance(p1) + p1.distance(p2) + p2.distance(p3)) / 2;
   }
@@ -242,8 +253,8 @@ export class Curve {
    * @return {number} Length.
    */
   getFullLength() {
-    let points = this.mPoints;
-    let mPointsLen = points.length;
+    const points = this.mPoints;
+    const mPointsLen = points.length;
     let res = 0;
 
     for (let i = 0; i < mPointsLen; i += 8)

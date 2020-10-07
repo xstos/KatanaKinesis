@@ -7,6 +7,9 @@ import { Component } from "../core/Component";
  * @extends black-engine~Component
  */
 export class InputComponent extends Component {
+	public touchable: any;
+	public mPointerInDispatched: any;
+
   /**
    * @return {void}
    */

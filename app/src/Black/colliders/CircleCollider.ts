@@ -9,6 +9,12 @@ import { Vector } from "../geom/Vector";
  * @extends black-engine~Collider
  */
 export class CircleCollider extends Collider {
+	public mCircle: any;
+	public mLocalCenter: any;
+	public mLocalMin: any;
+	public mLocalMax: any;
+	public mRadius: any;
+
   /**
    * Creates new instance of CircleCollider.
    *

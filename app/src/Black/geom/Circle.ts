@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name no-unnecessary-initializer */
 import { Vector } from "./Vector";
 
 /**
@@ -6,30 +7,35 @@ import { Vector } from "./Vector";
  * @cat geom
  */
 export class Circle {
+	public x: any;
+	public y: any;
+	public r: any;
+  static __cache: Circle;
+
   /**
    * Creates new Circle instance.
-   * 
+   *
    * @param  {number=} [x = 0] Position x.
    * @param  {number=} [y = 0] Position y.
    * @param  {number=} [r = 1] Radius.
    */
   constructor(x = 0, y = 0, r = 1) {
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.x = x;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.y = y;
 
-    /** 
-     * @private 
-     * @type {number} 
+    /**
+     * @private
+     * @type {number}
      */
     this.r = r;
   }
@@ -129,7 +135,7 @@ export class Circle {
    * @return {boolean} True if intersects.
    */
   intersects(circle) {
-    let d = new Vector(this.x, this.y).distance(new Vector(circle.x, circle.y));
+    const d = new Vector(this.x, this.y).distance(new Vector(circle.x, circle.y));
     return d <= this.r + circle.r && d >= this.r - circle.r;
   }
 
@@ -140,7 +146,7 @@ export class Circle {
    * @return {boolean} True if collide.
    */
   collide(circle) {
-    let d = new Vector(this.x, this.y).distance(new Vector(circle.x, circle.y));
+    const d = new Vector(this.x, this.y).distance(new Vector(circle.x, circle.y));
     return d <= this.r + circle.r;
   }
 
@@ -155,7 +161,7 @@ export class Circle {
       return false;
     }
 
-    let d = new Vector(this.x, this.y).distance(new Vector(circle.x, circle.y));
+    const d = new Vector(this.x, this.y).distance(new Vector(circle.x, circle.y));
     return d <= this.r - circle.r;
   }
 

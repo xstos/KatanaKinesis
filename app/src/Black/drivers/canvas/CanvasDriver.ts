@@ -22,6 +22,8 @@ import { Camera } from "../../display/Camera";
  * @cat drivers.canvas
  */
 export class CanvasDriver extends VideoNullDriver {
+	public mCtx: any;
+
   /**
    * Creates new instance of CanvasDriver
    *

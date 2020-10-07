@@ -18,6 +18,13 @@ import { AssetType } from "./AssetType";
  */
 
 export class VectorTextureAsset extends Asset {
+	public mUrl: any;
+	public mBakeSelf: any;
+	public mBakeChildren: any;
+	public mNamesToBake: any;
+	public mGraphicsData: any;
+	public mXHR: any;
+
   /**
    * Creates new JSONAsset instance.
    *

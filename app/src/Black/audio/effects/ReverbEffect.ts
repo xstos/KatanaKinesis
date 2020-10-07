@@ -9,6 +9,11 @@ import { Black } from "../../Black";
  * @extends {black-engine~SoundEffect}
  */
 export class ReverbEffect extends SoundEffect {
+	public mConvolver: any;
+	public mDry: any;
+	public mWet: any;
+	public mTone: any;
+
   /**
    * Creates instance of ReverbEffect.
    * 

@@ -18,6 +18,21 @@ import { Pair } from "./pairs/Pair";
  * @extends black-engine~System
  */
 export class Arcade extends System {
+	public mBodies: any;
+	public mPairs: any;
+	public mContacts: any;
+	public mBroadPhase: any;
+	public mPairsHash: any;
+	public mBoundsBody: any;
+	public mBoundsLeft: any;
+	public mBoundsRight: any;
+	public mBoundsTop: any;
+	public mBoundsBottom: any;
+	public mGravity: any;
+	public mIterations: any;
+	public mSleepEnabled: any;
+	public delta: any;
+
   /**
    * Creates new Arcade instance.
    */

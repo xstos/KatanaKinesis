@@ -10,6 +10,9 @@ import { Sprite } from "../display/Sprite";
  * @extends black-engine~Component
  */
 export class AnimationController extends Component {
+	public mAnimations: any;
+	public mCurrentAnim: any;
+
   /**
    * Creates an instance of AnimationController
    */

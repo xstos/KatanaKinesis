@@ -4,6 +4,12 @@
  * @cat input
  */
 export class KeyInfo {
+	public keyCode: any;
+	public code: any;
+	public char: any;
+	public shiftKey: any;
+	public altKey: any;
+	public ctrlKey: any;
 
   /**
    * Create new instance of KeyInfo

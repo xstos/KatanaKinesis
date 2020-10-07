@@ -1,3 +1,4 @@
+/* tslint:disable:variable-name */
 import { Debug } from "../core/Debug";
 import { ObjectPool } from "../utils/ObjectPool";
 import { MathEx } from "../math/MathEx";
@@ -8,6 +9,11 @@ import { MathEx } from "../math/MathEx";
  * @cat geom
  */
 export class Vector {
+	public x: any;
+	public y: any;
+  static pool: any;
+  static __cache: Vector;
+
   /**
    * Creates new Vector instance.
    *
@@ -16,14 +22,14 @@ export class Vector {
    */
   constructor(x = 0, y = 0) {
     Debug.isNumber(x, y);
-    
-    /** 
-     * @type {number} X coordinate of a point in the space. 
+
+    /**
+     * @type {number} X coordinate of a point in the space.
      */
     this.x = x;
 
-    /** 
-     * @type {number} Y coordinate of a point in the space. 
+    /**
+     * @type {number} Y coordinate of a point in the space.
      */
     this.y = y;
   }
@@ -77,8 +83,8 @@ export class Vector {
    * @return {number} The distance between two vectors.
    */
   distance(vector) {
-    let x = this.x - vector.x;
-    let y = this.y - vector.y;
+    const x = this.x - vector.x;
+    const y = this.y - vector.y;
 
     return Math.sqrt((x * x) + (y * y));
   }
@@ -90,8 +96,8 @@ export class Vector {
    * @return {number} The distance between two vectors.
    */
   distanceSqr(vector) {
-    let x = this.x - vector.x;
-    let y = this.y - vector.y;
+    const x = this.x - vector.x;
+    const y = this.y - vector.y;
 
     return (x * x) + (y * y);
   }
@@ -198,7 +204,7 @@ export class Vector {
   clampLength(min, max) {
     Debug.isNumber(min, max);
 
-    let length = MathEx.clamp(this.length(), min, max);
+    const length = MathEx.clamp(this.length(), min, max);
     this.normalize();
     this.multiplyScalar(length);
     return this;
@@ -300,8 +306,8 @@ export class Vector {
   setRotation(rotation) {
     Debug.isNumber(rotation);
 
-    let cos = Math.cos(rotation);
-    let sin = Math.sin(rotation);
+    const cos = Math.cos(rotation);
+    const sin = Math.sin(rotation);
 
     return this.set(this.x * cos - this.y * sin, this.x * sin + this.y * cos);
   }
@@ -347,7 +353,7 @@ export class Vector {
     outVector = outVector || new Vector();
     return outVector.set(Math.cos(angle), Math.sin(angle));
   }
-  
+
   /**
    * Returns random number within this rectangle.
    * @returns {number}

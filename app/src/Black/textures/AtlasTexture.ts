@@ -1,3 +1,4 @@
+/* tslint:disable:only-arrow-functions prefer-for-of */
 import { Texture } from "./Texture";
 import { Rectangle } from "../geom/Rectangle";
 import { Vector } from "../geom/Vector";
@@ -10,12 +11,14 @@ import { Debug } from "../core/Debug";
  * @extends black-engine~Texture
  */
 export class AtlasTexture extends Texture {
+	public mSubTextures: any;
+
   constructor(nativeElement, jsonObject, scale = 1) {
     super(nativeElement, null, null, scale);
 
-    /** 
-     * @private 
-     * @type {Object.<string, black-engine~Texture>} 
+    /**
+     * @private
+     * @type {Object.<string, black-engine~Texture>}
      */
     this.mSubTextures = {};
 
@@ -30,7 +33,7 @@ export class AtlasTexture extends Texture {
    * @return {void}
    */
   __parseAtlasData(o, scale) {
-    for (let key in o.frames) {
+    for (const key in o.frames) {
       const data = /** @type {Array<number>} */ (o.frames[key]);
       const region = new Rectangle(data[0], data[1], data[2], data[3]);
       const untrimmedRect = new Rectangle(data[4], data[5], data[6], data[7]);
@@ -49,7 +52,7 @@ export class AtlasTexture extends Texture {
         registrationPoint = new Vector(data[8], data[9]);
         slice9borders = new Rectangle(data[10], data[11], data[12], data[13]);
       }
-      
+
       this.mSubTextures[key] = new Texture(this.native, region, untrimmedRect, scale, registrationPoint, slice9borders);
     }
   }
@@ -62,7 +65,7 @@ export class AtlasTexture extends Texture {
    */
   getTexture(name) {
     /** @type {Texture} */
-    let t = this.mSubTextures[name];
+    const t = this.mSubTextures[name];
     Debug.assertWarn(t !== undefined, `Texture '${name}' was not found`);
 
     return /** @type {Texture} */ (t);
@@ -78,23 +81,23 @@ export class AtlasTexture extends Texture {
    * @return {Array<black-engine~Texture>}             The list of found textures.
    */
   getTextures(nameMask = null, outTextures = null) {
-    let out = outTextures || [];
+    const out = outTextures || [];
     if (nameMask === null) {
-      for (let key in this.mSubTextures)
+      for (const key in this.mSubTextures)
         out.push(this.mSubTextures[key]);
 
       return /** @type {Array<Texture>} */ (out);
     }
 
-    let names = [];
+    const names = [];
 
     // TODO: make helper wild function
-    let re = new RegExp("^" + nameMask.split("*").join(".*") + "$");
-    for (let key in this.mSubTextures)
+    const re = new RegExp("^" + nameMask.split("*").join(".*") + "$");
+    for (const key in this.mSubTextures)
       if (re.test(key))
         names.push(key);
 
-    //names.sort(AtlasTexture.__naturalComparer);
+    // names.sort(AtlasTexture.__naturalComparer);
     AtlasTexture.naturalSort(names);
 
     for (let i = 0; i < names.length; i++)
@@ -133,19 +136,23 @@ export class AtlasTexture extends Texture {
   static __naturalComparer(field = null, useAbs = true) {
     return function (a, b) {
       const NUMBER_GROUPS = /(-?\d*\.?\d+)/g;
-      let aa = String(field == null ? a : a[field]).split(NUMBER_GROUPS);
-      let bb = String(field == null ? b : b[field]).split(NUMBER_GROUPS);
-      let min = Math.min(aa.length, bb.length);
+      const aa = String(field == null ? a : a[field]).split(NUMBER_GROUPS);
+      const bb = String(field == null ? b : b[field]).split(NUMBER_GROUPS);
+      const min = Math.min(aa.length, bb.length);
 
       for (let i = 0; i < min; i++) {
         let x = 0;
         let y = 0;
 
         if (useAbs) {
+          // @ts-ignore
           x = Math.abs(parseFloat(aa[i])) || aa[i].toLowerCase();
+          // @ts-ignore
           y = Math.abs(parseFloat(bb[i])) || bb[i].toLowerCase();
         } else {
+          // @ts-ignore
           x = parseFloat(aa[i]) || aa[i].toLowerCase();
+          // @ts-ignore
           y = parseFloat(bb[i]) || bb[i].toLowerCase();
         }
 

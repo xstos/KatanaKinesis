@@ -1,3 +1,4 @@
+/* tslint:disable:prefer-for-of */
 import { BindingType } from './BindingType';
 import { Message } from './Message';
 import { MessageType } from './MessageType';
@@ -13,6 +14,10 @@ import { Black } from '../Black';
  * @cat core
  */
 export class MessageDispatcher {
+	public mBindings: any;
+	public checkForStage: any;
+  static mOverheardHandlers: any;
+
   /**
    * Creates new MessageDispatcher instance
    * @param {boolean} [checkForStage=false]
@@ -37,7 +42,7 @@ export class MessageDispatcher {
 
   /**
    * Removes all bindings by given message name.
-   * 
+   *
    * @public
    * @param {...string} names One or more message name.
    * @returns {void}
@@ -46,14 +51,14 @@ export class MessageDispatcher {
     for (let i = 0; i < names.length; i++) {
       const name = names[i];
 
-      let earIndex = name.indexOf('@');
+      const earIndex = name.indexOf('@');
       if (earIndex !== -1) {
         Debug.error('Removing overheard bindings is not allowed.');
         return;
       }
 
       if (this.mBindings !== null && this.mBindings.hasOwnProperty(name) === true) {
-        let bindings = this.mBindings[name].slice();
+        const bindings = this.mBindings[name].slice();
 
         for (let i = 0; i < bindings.length; i++)
           this.__off(bindings[i]);
@@ -76,7 +81,7 @@ export class MessageDispatcher {
 
   /**
    * Posts message with a given params.
-   * 
+   *
    * Adding `~` character to the begging of the name will bubble message to the top of the tree.
    *
    * @public
@@ -85,7 +90,7 @@ export class MessageDispatcher {
    * @return {void}
    */
   post(name, ...params) {
-    let message = this.__draftMessage(name);
+    const message = this.__draftMessage(name);
 
     if (message.type === MessageType.DIRECT)
       this.__invoke(this, message, ...params);
@@ -100,7 +105,7 @@ export class MessageDispatcher {
 
   /**
    * Returns parent MessageDispatcher.
-   * 
+   *
    * @readonly
    * @return {black-engine~MessageDispatcher|null}
    */
@@ -144,17 +149,17 @@ export class MessageDispatcher {
     Debug.assert(!(name.indexOf('~') === 0), 'Using `~` is not tot allowed here.');
     Debug.assert(callback !== null, 'callback cannot be null.');
 
-    let earIndex = name.indexOf('@');
+    const earIndex = name.indexOf('@');
     if (earIndex !== -1) {
-      let messageName = name.substring(0, earIndex);
-      let pathPattern = name.substring(earIndex + 1);
-      let global = MessageDispatcher.mOverheardHandlers;
+      const messageName = name.substring(0, earIndex);
+      const pathPattern = name.substring(earIndex + 1);
+      const global = MessageDispatcher.mOverheardHandlers;
 
       if (global.hasOwnProperty(messageName) === false)
         global[messageName] = [];
 
-      let bindings = global[messageName];
-      let binding = new MessageBinding(this, messageName, callback, isOnce, context, BindingType.OVERHEARD, pathPattern);
+      const bindings = global[messageName];
+      const binding = new MessageBinding(this, messageName, callback, isOnce, context, BindingType.OVERHEARD, pathPattern);
       bindings.push(binding);
       return binding;
     }
@@ -165,7 +170,7 @@ export class MessageDispatcher {
     if (this.mBindings.hasOwnProperty(name) === false)
       this.mBindings[name] = [];
 
-    let binding = new MessageBinding(this, name, callback, isOnce, context, BindingType.REGULAR);
+    const binding = new MessageBinding(this, name, callback, isOnce, context, BindingType.REGULAR);
     this.mBindings[name].push(binding);
 
     return binding;
@@ -174,7 +179,7 @@ export class MessageDispatcher {
   /**
    * @private
    * @ignore
-   * @param {black-engine~MessageBinding} binding 
+   * @param {black-engine~MessageBinding} binding
    */
   __off(binding) {
     if (binding.type === BindingType.REGULAR) {
@@ -184,18 +189,18 @@ export class MessageDispatcher {
       if (this.mBindings.hasOwnProperty(binding.name) === false)
         return;
 
-      let bindings = this.mBindings[binding.name];
+      const bindings = this.mBindings[binding.name];
       const ix = bindings.indexOf(binding);
       if (ix === -1)
         return;
 
       bindings.splice(ix, 1);
     } else if (binding.type === BindingType.OVERHEARD) {
-      let global = MessageDispatcher.mOverheardHandlers;
+      const global = MessageDispatcher.mOverheardHandlers;
       if (global.hasOwnProperty(binding.name) === false)
         return;
 
-      let bindings = global[binding.name];
+      const bindings = global[binding.name];
 
       const ix = bindings.indexOf(binding);
       if (ix === -1)
@@ -208,9 +213,9 @@ export class MessageDispatcher {
   /**
    * @private
    * @ignore
-   * @param {black-engine~MessageDispatcher} sender 
-   * @param {black-engine~Message} message 
-   * @param {...*} params 
+   * @param {black-engine~MessageDispatcher} sender
+   * @param {black-engine~Message} message
+   * @param {...*} params
    * @return {void}
    */
   __invoke(sender, message, ...params) {
@@ -223,17 +228,17 @@ export class MessageDispatcher {
     if (this.checkForStage === true && this !== Black.stage && this.stage === null)
       return;
 
-    let bindings = (this.mBindings[message.name]);
+    const bindings = (this.mBindings[message.name]);
 
     if (bindings === undefined || bindings.length === 0)
       return;
 
-    let cloned = bindings.slice(0);
+    const cloned = bindings.slice(0);
 
     for (let i = 0; i < cloned.length; i++) {
       message.target = this;
 
-      let binding = cloned[i];
+      const binding = cloned[i];
 
       if (this.checkForStage === true && binding.owner.stage === Black.stage && binding.owner.stage === null)
         continue;
@@ -260,15 +265,15 @@ export class MessageDispatcher {
     if (message.canceled === true)
       return;
 
-    let bindings = MessageDispatcher.mOverheardHandlers[message.name];
+    const bindings = MessageDispatcher.mOverheardHandlers[message.name];
 
     if (bindings === undefined || bindings.length === 0)
       return;
 
-    let cloned = bindings.slice(0);
+    const cloned = bindings.slice(0);
 
     for (let i = 0; i < cloned.length; i++) {
-      let binding = cloned[i];
+      const binding = cloned[i];
 
       if (this.checkForStage === true && binding.owner.stage === Black.stage && binding.owner.stage === null)
         continue;
@@ -289,7 +294,7 @@ export class MessageDispatcher {
 
   /**
    * Message will always reach the stage even if some of the middle nodes were removed during process of invocation.
-   * 
+   *
    * @private
    * @ignore
    * @param {*}  sender
@@ -301,7 +306,7 @@ export class MessageDispatcher {
   __postBubbles(sender, message, toTop, ...params) {
     message.origin = this;
 
-    let list = [this];
+    const list = [this];
 
     let current = this;
     while (current.parent !== null) {
@@ -310,7 +315,7 @@ export class MessageDispatcher {
     }
 
     for (let i = 0; i < list.length; i++) {
-      let dispatcher = list[i];
+      const dispatcher = list[i];
       dispatcher.__invoke(sender, message, ...params);
 
       if (message.canceled === true)
@@ -321,8 +326,8 @@ export class MessageDispatcher {
   /**
    * @private
    * @ignore
-   * 
-   * @param {string} name 
+   *
+   * @param {string} name
    * @returns {black-engine~Message}
    */
   __draftMessage(name) {

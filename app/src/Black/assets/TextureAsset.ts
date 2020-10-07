@@ -12,6 +12,10 @@ import { LoaderType } from "./LoaderType";
  * @extends black-engine~Asset
  */
 export class TextureAsset extends Asset {
+	public mUrl: any;
+	public mScale: any;
+	public mImageLoader: any;
+
   /**
    * Creates TextureAsset instance.
    *

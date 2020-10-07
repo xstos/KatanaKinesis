@@ -10,6 +10,19 @@ import { Black } from "../Black";
  * @cat animation
  */
 export class AnimationInfo {
+	public mController: any;
+	public mName: any;
+	public mFrames: any;
+	public mCurrentFrame: any;
+	public mNextFrameAt: any;
+	public mFPS: any;
+	public mFrameDuration: any;
+	public mLoop: any;
+	public mPaused: any;
+	public mElapsed: any;
+	public mStopped: any;
+	public mCompleted: any;
+
   /**
    * Creates an instance of Animation class
    *

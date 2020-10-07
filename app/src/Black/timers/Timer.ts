@@ -13,6 +13,14 @@ import { Black } from "../Black";
  * @extends black-engine~Component
  */
 export class Timer extends Component {
+	public mStartOnAdded: any;
+	public mInterval: any;
+	public mTicksCount: any;
+	public mIsRunning: any;
+	public mTick: any;
+	public mElapsedSeconds: any;
+	public mTotalElapsedSeconds: any;
+
   constructor(interval = 1, ticksCount = 1, startOnAdded = true) {
     super();
     
