@@ -1,0 +1,21 @@
+{
+  "name": "katana-kinesis",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc --target es6",
+    "watch": "tsc -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "start": "npm run build && electron ./dist/main.js"
+  },
+  "repository": "https://github.com/xstos/KatanaKinesis.git",
+  "keywords": [],
+  "author": "Chris C",
+  "license": "",
+  "devDependencies": {
+    "black-engine": "0.5.10",
+    "electron": "^9.3.0",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.5"
+  }
+}
