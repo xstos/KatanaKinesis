@@ -1,5 +1,3 @@
-https://github.com/Anitorious/electron-forge-typescript-webpack-react-starter
-
 # electron-forge-typescript-webpack-react-starter
 
 It's as simple as it sounds! This is a template repository as a quick start to rolling your own electron powered react application. Includes HMR capabilities
