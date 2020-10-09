@@ -50,7 +50,7 @@ export class Engine extends MessageDispatcher {
 	public mPauseOnBlur: any;
 	public mTagCache: any;
 	public mGameClass: any;
-	public mStage: any;
+	public mStage: Stage;
 	public mWasStopped: any;
 	public mFrameTimes: any;
 	public mUseHiDPR: any;
