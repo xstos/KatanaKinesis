@@ -1,0 +1,378 @@
+/* tslint:disable:prefer-for-of */
+import { BindingType } from './BindingType';
+import { Message } from './Message';
+import { MessageType } from './MessageType';
+import { MessageBinding } from './MessageBinding';
+import { Debug } from '../core/Debug';
+import { Black } from '../Black';
+
+/**
+ * The MessageDispatcher class is the base class for all classes that posts messages.
+ *
+ * Global messages will not be dispatched on non GameObject objects.
+ *
+ * @cat core
+ */
+export class MessageDispatcher {
+	public mBindings: any;
+	public checkForStage: any;
+  static mOverheardHandlers: any;
+
+  /**
+   * Creates new MessageDispatcher instance
+   * @param {boolean} [checkForStage=false]
+   */
+  constructor(checkForStage = false) {
+    this.mBindings = null;
+    this.checkForStage = checkForStage;
+  }
+
+  /**
+   * Adds listener by given name and callback.
+   *
+   * @public
+   * @param {string} name       Message name.
+   * @param {Function} callback Function to be called on message send.
+   * @param {*} [context=null]  Object to be used as `this` in callback function.
+   * @return {black-engine~MessageBinding}
+   */
+  on(name, callback, context) {
+    return this.__on(name, callback, false, context);
+  }
+
+  /**
+   * Removes all bindings by given message name.
+   *
+   * @public
+   * @param {...string} names One or more message name.
+   * @returns {void}
+   */
+  off(...names) {
+    for (let i = 0; i < names.length; i++) {
+      const name = names[i];
+
+      const earIndex = name.indexOf('@');
+      if (earIndex !== -1) {
+        Debug.error('Removing overheard bindings is not allowed.');
+        return;
+      }
+
+      if (this.mBindings !== null && this.mBindings.hasOwnProperty(name) === true) {
+        const bindings = this.mBindings[name].slice();
+
+        for (let i = 0; i < bindings.length; i++)
+          this.__off(bindings[i]);
+      }
+    }
+  }
+
+  /**
+   * Adds listener by given name and callback. Binding will be automatically removed after first execution.
+   *
+   * @public
+   * @param {string} name       Message name.
+   * @param {Function} callback Function to be called on message send.
+   * @param {*} [context=null]  Object to be used as `this` in callback function.
+   * @return {black-engine~MessageBinding}
+   */
+  once(name, callback, context) {
+    return this.__on(name, callback, true, context);
+  }
+
+  /**
+   * Posts message with a given params.
+   *
+   * Adding `~` character to the begging of the name will bubble message to the top of the tree.
+   *
+   * @public
+   * @param {string} name  The name of a message
+   * @param {...*} params  A list of params to send
+   * @return {void}
+   */
+  post(name, ...params) {
+    const message = this.__draftMessage(name);
+
+    if (message.type === MessageType.DIRECT)
+      this.__invoke(this, message, ...params);
+    else if (message.type === MessageType.BUBBLE)
+      this.__postBubbles(this, message, true, ...params);
+
+    if (message.canceled === false)
+      this.__invokeOverheard(this, message, ...params);
+
+    Message.pool.release(message);
+  }
+
+  /**
+   * Returns parent MessageDispatcher.
+   *
+   * @readonly
+   * @return {black-engine~MessageDispatcher|null}
+   */
+  get parent() {
+    return null;
+  }
+
+  /**
+   * Returns the stage Game Object to which this belongs to or null if not added onto stage.
+   *
+   * @readonly
+   * @return {black-engine~Stage|null}
+   */
+  get stage() {
+    return null;
+  }
+
+  /**
+   * Returns string representing a url like path to this object in the display
+   * tree.
+   *
+   * @readonly
+   * @return {string|null}
+   */
+  get path() {
+    return null;
+  }
+
+  /**
+   * @private
+   * @ignore
+   * @param {string} name
+   * @param {Function} callback
+   * @param {boolean} [isOnce=false]
+   * @param {*} [context=null]
+   * @return {black-engine~MessageBinding}
+   */
+  __on(name, callback, isOnce = false, context = null) {
+    Debug.assert(name !== null, 'name cannot be null.');
+    Debug.assert(name.trim().length > 0, 'name cannot be null.');
+    Debug.assert(!(name.indexOf('~') === 0), 'Using `~` is not tot allowed here.');
+    Debug.assert(callback !== null, 'callback cannot be null.');
+
+    const earIndex = name.indexOf('@');
+    if (earIndex !== -1) {
+      const messageName = name.substring(0, earIndex);
+      const pathPattern = name.substring(earIndex + 1);
+      const global = MessageDispatcher.mOverheardHandlers;
+
+      if (global.hasOwnProperty(messageName) === false)
+        global[messageName] = [];
+
+      const bindings = global[messageName];
+      const binding = new MessageBinding(this, messageName, callback, isOnce, context, BindingType.OVERHEARD, pathPattern);
+      bindings.push(binding);
+      return binding;
+    }
+
+    if (this.mBindings === null)
+      this.mBindings = {};
+
+    if (this.mBindings.hasOwnProperty(name) === false)
+      this.mBindings[name] = [];
+
+    const binding = new MessageBinding(this, name, callback, isOnce, context, BindingType.REGULAR);
+    this.mBindings[name].push(binding);
+
+    return binding;
+  }
+
+  /**
+   * @private
+   * @ignore
+   * @param {black-engine~MessageBinding} binding
+   */
+  __off(binding) {
+    if (binding.type === BindingType.REGULAR) {
+      if (this.mBindings === null)
+        return;
+
+      if (this.mBindings.hasOwnProperty(binding.name) === false)
+        return;
+
+      const bindings = this.mBindings[binding.name];
+      const ix = bindings.indexOf(binding);
+      if (ix === -1)
+        return;
+
+      bindings.splice(ix, 1);
+    } else if (binding.type === BindingType.OVERHEARD) {
+      const global = MessageDispatcher.mOverheardHandlers;
+      if (global.hasOwnProperty(binding.name) === false)
+        return;
+
+      const bindings = global[binding.name];
+
+      const ix = bindings.indexOf(binding);
+      if (ix === -1)
+        return;
+
+      bindings.splice(ix, 1);
+    }
+  }
+
+  /**
+   * @private
+   * @ignore
+   * @param {black-engine~MessageDispatcher} sender
+   * @param {black-engine~Message} message
+   * @param {...*} params
+   * @return {void}
+   */
+  __invoke(sender, message, ...params) {
+    if (message.canceled === true)
+      return;
+
+    if (this.mBindings === null)
+      return;
+
+    if (this.checkForStage === true && this !== Black.stage && this.stage === null)
+      return;
+
+    const bindings = (this.mBindings[message.name]);
+
+    if (bindings === undefined || bindings.length === 0)
+      return;
+
+    const cloned = bindings.slice(0);
+
+    for (let i = 0; i < cloned.length; i++) {
+      message.target = this;
+
+      const binding = cloned[i];
+
+      if (this.checkForStage === true && binding.owner.stage === Black.stage && binding.owner.stage === null)
+        continue;
+
+      binding.callback.call(binding.context, message, ...params);
+
+      if (binding.isOnce === true)
+        this.__off(binding);
+
+      if (message.canceled === true)
+        return;
+    }
+  }
+
+  /**
+   * @private
+   * @ignore
+   * @param {black-engine~MessageDispatcher}  sender
+   * @param {black-engine~Message}  message
+   * @param {...*} params
+   * @return {void}
+   */
+  __invokeOverheard(sender, message, ...params) {
+    if (message.canceled === true)
+      return;
+
+    const bindings = MessageDispatcher.mOverheardHandlers[message.name];
+
+    if (bindings === undefined || bindings.length === 0)
+      return;
+
+    const cloned = bindings.slice(0);
+
+    for (let i = 0; i < cloned.length; i++) {
+      const binding = cloned[i];
+
+      if (this.checkForStage === true && binding.owner.stage === Black.stage && binding.owner.stage === null)
+        continue;
+
+      if (!this.__checkPath(sender.path, binding))
+        continue;
+
+      message.target = this;
+      binding.callback.call(binding.context, message, ...params);
+
+      if (binding.isOnce === true)
+        this.__off(binding);
+
+      if (message.canceled === true)
+        return;
+    }
+  }
+
+  /**
+   * Message will always reach the stage even if some of the middle nodes were removed during process of invocation.
+   *
+   * @private
+   * @ignore
+   * @param {*}  sender
+   * @param {Message}  message
+   * @param {boolean}  toTop
+   * @param {...*} params
+   * @return {void}
+   */
+  __postBubbles(sender, message, toTop, ...params) {
+    message.origin = this;
+
+    const list = [this];
+
+    let current = this;
+    while (current.parent !== null) {
+      list.push(current.parent);
+      current = current.parent;
+    }
+
+    for (let i = 0; i < list.length; i++) {
+      const dispatcher = list[i];
+      dispatcher.__invoke(sender, message, ...params);
+
+      if (message.canceled === true)
+        return;
+    }
+  }
+
+  /**
+   * @private
+   * @ignore
+   *
+   * @param {string} name
+   * @returns {black-engine~Message}
+   */
+  __draftMessage(name) {
+    const message = Message.pool.get();
+    message.__reset();
+
+    message.sender = this;
+
+    if (name.charAt(0) === '~') {
+      message.name = name.substr(1);
+      message.type = MessageType.BUBBLE;
+    } else {
+      message.name = name;
+    }
+
+    return message;
+  }
+
+  /**
+   * @ignore
+   * @private
+   * @param {string|null} path
+   * @param {black-engine~MessageBinding} binding
+   * @returns {boolean}
+   */
+  __checkPath(path, binding) {
+    if (path === null || binding.pathPattern === null)
+      return false;
+
+    if (path === binding.pathPattern)
+      return true;
+
+    if (binding.pathPattern.indexOf('*') === -1)
+      return path === binding.pathPattern;
+
+    return binding.glob.test(path);
+  }
+
+  static dispose() {
+    MessageDispatcher.mOverheardHandlers = {};
+  }
+}
+
+/**
+ * @private
+ * @type {Object.<string, Array>}
+ */
+MessageDispatcher.mOverheardHandlers = {};
