@@ -151,7 +151,7 @@ export class TextField extends DisplayObject {
      * @private 
      * @type {boolean} 
      */
-    this.mHighQuality = false;
+    this.mHighQuality = true;
   }
 
   /**

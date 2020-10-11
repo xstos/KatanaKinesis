@@ -42,7 +42,7 @@ export class Engine extends MessageDispatcher {
 	public mIsStarted: any;
 	public mIsPanic: any;
 	public mRAFHandle: any;
-	public mViewport: any;
+	public mViewport: Viewport;
 	public mVideo: any;
 	public mPaused: any;
 	public mUnpausing: any;
@@ -840,7 +840,7 @@ export class Engine extends MessageDispatcher {
    *
    * @return {black-engine~Viewport}
    */
-  get viewport() {
+  get viewport(): Viewport {
     return this.mViewport;
   }
 

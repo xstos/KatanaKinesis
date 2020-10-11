@@ -1,4 +1,6 @@
-var mInstance = null;
+import {Engine} from "./Engine";
+
+var mInstance: Black = null;
 
 /**
  * Connects all the dots.
@@ -7,7 +9,7 @@ var mInstance = null;
  * @staticClass
  */
 class Black {
-	public mEngine: any;
+	public mEngine: Engine;
 	public mInput: any;
 	public mAudio: any;
 	public mTime: any;
@@ -68,7 +70,7 @@ class Black {
    * 
    * @returns {black-engine~Engine}
    */
-  static get engine() {
+  static get engine(): Engine {
     return mInstance.mEngine;
   }
 
@@ -76,7 +78,7 @@ class Black {
    * Sets new Engine instance.
    * @param {black-engine~Engine} value
    */
-  static set engine(value) {
+  static set engine(value: Engine) {
     mInstance.mEngine = value;
   }
 

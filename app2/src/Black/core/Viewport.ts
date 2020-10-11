@@ -16,7 +16,7 @@ import { Black } from "../Black";
 export class Viewport extends MessageDispatcher {
 	public mContainerElement: any;
 	public mViewportElement: any;
-	public mSize: any;
+	public mSize: Rectangle;
 	public isTransparent: any;
 	public backgroundColor: any;
 	public mChecksLeftSeconds: any;
@@ -267,7 +267,7 @@ export class Viewport extends MessageDispatcher {
    *
    * @return {black-engine~Rectangle}
    */
-  get size() {
+  get size(): Rectangle {
     return this.mSize;
   }
 

@@ -296,7 +296,9 @@ export class Input extends System {
    */
   __getPointerPos(canvas, evt) {
     const rect = canvas.getBoundingClientRect();
-
+    if (rect.width === 0) {
+      debugger
+    }
     const rotation = Black.engine.viewport.rotation;
 
     const scaleX = (rotation === 0 ? canvas.clientWidth : canvas.clientHeight) / rect.width;
