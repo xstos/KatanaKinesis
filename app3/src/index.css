@@ -1,0 +1,14 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: white;
+}
+#root, #appdiv {
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /*box-shadow: inset 0 0 0 1px red;*/
+}
